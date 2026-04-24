@@ -95,8 +95,8 @@ export default function MasjidFinderPage() {
         <header className={styles.hero}>
           <p className={styles.bismillah}>بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
           <div className={styles.domeIcon}>🕌</div>
-          <h1 className={styles.heroTitle}>قریبی مسجد تلاش کریں</h1>
-          <p className={styles.heroSubtitle}>Karachi mein namaz ki timings janein — aapke ghar ke paas</p>
+          <h1 className={`${styles.heroTitle} `}>قریبی مسجد تلاش کریں</h1>
+          <p className={styles.heroSubtitle}>Karachi namaz ki timings janein — aapke ghar ke paas</p>
         </header>
 
         {/* ── PRAYER TIME BAR ──────────────────────────────────────────────── */}
