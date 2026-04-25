@@ -1,6 +1,9 @@
 import connectDB from "@/lib/mongoose";
+import Masjid from "@/models/Masjid";
+import { NextResponse } from "next/server";
 
 export async function GET(){
         await connectDB()
-        return Response.json({message: 'Database connected'})
+        const masjids = await Masjid.find({})
+        return NextResponse.json({success: true, data: masjids})
 }
