@@ -23,16 +23,16 @@ const PRAYER_FILTERS = [
 ];
 
 const MASJID_DB = [
-  { name: 'Masjid-e-Tooba',     area: 'Defence Phase 4',    dist: 0.4, cap: '5000+', parking: true,  timings: { fajr:'05:10', zuhr:'12:40', asr:'16:05', maghrib:'18:50', isha:'20:15', juma:'13:00' } },
-  { name: 'Memon Masjid',       area: 'Saddar, Karachi',    dist: 0.8, cap: '2000',  parking: false, timings: { fajr:'05:08', zuhr:'12:35', asr:'16:00', maghrib:'18:48', isha:'20:10', juma:'12:30' } },
-  { name: 'Masjid Al-Falah',    area: 'Gulshan-e-Iqbal',    dist: 1.1, cap: '1500',  parking: true,  timings: { fajr:'05:12', zuhr:'12:38', asr:'16:08', maghrib:'18:52', isha:'20:18', juma:'13:15' } },
-  { name: 'Jamia Masjid Gulzar',area: 'North Nazimabad',    dist: 1.6, cap: '800',   parking: false, timings: { fajr:'05:15', zuhr:'12:42', asr:'16:10', maghrib:'18:53', isha:'20:20', juma:'12:45' } },
-  { name: 'Masjid-e-Noor',      area: 'Clifton Block 5',    dist: 1.9, cap: '3000',  parking: true,  timings: { fajr:'05:09', zuhr:'12:36', asr:'16:03', maghrib:'18:49', isha:'20:12', juma:'13:30' } },
-  { name: 'Al-Rehman Masjid',   area: 'Bahadurabad',        dist: 2.0, cap: '600',   parking: false, timings: { fajr:'05:11', zuhr:'12:37', asr:'16:06', maghrib:'18:51', isha:'20:16', juma:'12:30' } },
-  { name: 'Masjid Al-Huda',     area: 'Gulistan-e-Johar',   dist: 3.1, cap: '1200',  parking: true,  timings: { fajr:'05:13', zuhr:'12:39', asr:'16:07', maghrib:'18:51', isha:'20:17', juma:'13:00' } },
-  { name: 'Shah Faisal Masjid', area: 'Shah Faisal Colony', dist: 4.5, cap: '4000',  parking: true,  timings: { fajr:'05:07', zuhr:'12:33', asr:'15:58', maghrib:'18:46', isha:'20:08', juma:'12:15' } },
-  { name: 'Masjid-e-Siddiq',    area: 'Orangi Town',        dist: 5.8, cap: '900',   parking: false, timings: { fajr:'05:16', zuhr:'12:44', asr:'16:12', maghrib:'18:55', isha:'20:22', juma:'13:30' } },
-  { name: 'Eidgah Masjid',      area: 'Lyari',              dist: 7.2, cap: '8000',  parking: true,  timings: { fajr:'05:05', zuhr:'12:30', asr:'15:55', maghrib:'18:44', isha:'20:05', juma:'12:00' } },
+  { name: 'Rizwan Masjid',     area: 'Sector 5L, North Karachi',    dist: 0.4, cap: '5000+', parking: true,  timings: {juma:'2:15' } },
+  { name: 'KanzulEman Masjid',       area: 'Alam Pride, North Karachi',    dist: 0.8, cap: '2000',  parking: false, timings: {juma:'2:20' }},
+  { name: 'Babu ul Islam',    area: 'Sector 8, North Karachi',    dist: 1.1, cap: '1500',  parking: true,  timings: {juma:'3:00' }},
+  { name: 'Al Huda Masjid',area: 'Sector 11 A, North Karachi',    dist: 1.6, cap: '800',   parking: false, timings: {juma:'1:45' }},
+  { name: 'Noor Masjid',      area: 'Sector 11 L, North Karachi',    dist: 1.9, cap: '3000',  parking: true,  timings: {juma:'2:30' } },
+  { name: 'Saleem Center Masjid',   area: 'Sector 11 L, North Karachi',        dist: 2.0, cap: '600',   parking: false, timings: {juma:'1:00' }},
+  { name: 'Kuba Masjid',     area: 'Sector 5C-4, North Karachi',   dist: 3.1, cap: '1200',  parking: true,  timings: {juma:'2:30' }},
+  { name: 'Beet ul Anam Masjid', area: 'FLAT#Beet-ul-Anam, Sector-5k, North Karachi', dist: 4.5, cap: '4000',  parking: true,  timings: {juma:'1:30' } },
+  { name: 'Farooqia Masjid',    area: 'Sector 11K, Saleem Center', dist: 5.8, cap: '900',   parking: false, timings: {juma:'1:15' } },
+  { name: 'Usmania Masjid',      area: 'Ajmer Nagri, North Karachi', dist: 7.2, cap: '8000',  parking: true,  timings: {juma:'2:00' } },
 ];
 
 // ─── MAIN PAGE ───────────────────────────────────────────────────────────────
