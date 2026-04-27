@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import styles from './page.module.css';
+import { MapPin } from 'lucide-react';
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────
 interface Masjid {
@@ -15,6 +16,8 @@ interface Masjid {
     juma?: string
   }
 }
+
+
 
 // ─── MAIN PAGE ───────────────────────────────────────────────────────────────
 export default function MasjidFinderPage() {
@@ -42,12 +45,13 @@ export default function MasjidFinderPage() {
     }
     getMasjids()
   }, [])
+  
 
   // ── Radius slider ──────────────────────────────────────────────────────────
   const sliderPct = ((radius - 0.5) / 9.5) * 100;
   const handleRadius = (e: React.ChangeEvent<HTMLInputElement>) =>
     setRadius(parseFloat(e.target.value));
-
+  
   // ── Detect location ────────────────────────────────────────────────────────
   const detectLocation = useCallback(() => {
     setLocLoading(true);
@@ -236,6 +240,10 @@ function Divider({ label }: { label: string }) {
 
 // ─── MASJID CARD — sirf Juma timing ─────────────────────────────────────────
 function MasjidCard({ masjid, index }: { masjid: Masjid; index: number }) {
+  const openMap = () => {
+      const query = encodeURIComponent(masjid.name + " " + masjid.area + " Karachi")
+      window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank')
+  }
   return (
     <div
       className={styles.masjidCard}
@@ -252,6 +260,12 @@ function MasjidCard({ masjid, index }: { masjid: Masjid; index: number }) {
             {masjid.timings?.juma ?? '--:--'}
           </div>
           <div className={styles.tLabel}>Juma</div>
+        </div>
+        <div className={styles.timeBadge}>
+          <button onClick={openMap} className={styles.mapBtn}>
+            <MapPin size={16}/>  
+            
+          </button>
         </div>
       </div>
       <div className={styles.cardInfo}>
