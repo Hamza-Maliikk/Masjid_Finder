@@ -1,7 +1,8 @@
 import mongoose from 'mongoose'
 
 const connectDB = async (): Promise<void> => {
-  if (mongoose.connections[0].readyState) return
+  try{
+    if (mongoose.connections[0].readyState) return
 
   const uri = process.env.MONGODB_URI
 
@@ -11,6 +12,10 @@ const connectDB = async (): Promise<void> => {
 
   await mongoose.connect(uri)
   console.log('MongoDB Connected ✓')
+  }catch(error){
+    console.error('MongoDB connection error:', error)
+  }
+  
 }
 
 export default connectDB
