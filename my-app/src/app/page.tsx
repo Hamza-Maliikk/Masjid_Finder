@@ -30,6 +30,7 @@ export default function MasjidFinderPage() {
   const [sortAsc, setSortAsc]       = useState(true);
   const [masjids, setMasjids]       = useState<Masjid[]>([]);
   const [fetchError, setFetchError] = useState(false);
+  const [userCoords, setUserCoords] = useState<{lat: number, lng: number} | null>(null);
 
   // ── DB se data fetch karo ─────────────────────────────────────────────────
   useEffect(() => {
@@ -45,6 +46,8 @@ export default function MasjidFinderPage() {
     }
     getMasjids()
   }, [])
+
+  
   
 
   // ── Radius slider ──────────────────────────────────────────────────────────
@@ -53,22 +56,29 @@ export default function MasjidFinderPage() {
     setRadius(parseFloat(e.target.value));
   
   // ── Detect location ────────────────────────────────────────────────────────
-  const detectLocation = useCallback(() => {
-    setLocLoading(true);
-    const done = (label: string) => {
-      setLocLabel(label);
-      setLocDetected(true);
-      setLocLoading(false);
-    };
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (p) => done(`${p.coords.latitude.toFixed(4)}, ${p.coords.longitude.toFixed(4)}`),
-        ()  => done('Karachi (Default)')
-      );
-    } else {
-      done('Karachi (Default)');
-    }
-  }, []);
+const detectLocation = useCallback(() => {
+  setLocLoading(true);
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (p) => {
+        const lat = p.coords.latitude;
+        const lng = p.coords.longitude;
+        
+        setUserCoords({ lat, lng });  // ✅ real coords save
+        setLocLabel(`${lat.toFixed(4)}, ${lng.toFixed(4)}`);
+        setLocDetected(true);
+        setLocLoading(false);
+      },
+      () => {
+        // Default — Karachi center
+        setUserCoords({ lat: 24.8607, lng: 67.0011 });
+        setLocLabel('Karachi (Default)');
+        setLocDetected(true);
+        setLocLoading(false);
+      }
+    );  
+  }
+}, []);
 
   // ── Search ─────────────────────────────────────────────────────────────────
   const doSearch = () => {

@@ -5,6 +5,8 @@ export interface IMasjid extends Document {
   area: string
   dist: number
   cap: string
+  lat: number
+  lng: number
   parking: boolean
   timings: {
     juma: string
@@ -16,6 +18,8 @@ const MasjidSchema = new Schema<IMasjid>({
   area:    { type: String, required: true },
   dist:    { type: Number, required: true },
   cap:     { type: String, required: true },
+  lat:   { type: Number, required: true },
+  lng:   { type: Number, required: true},
   parking: { type: Boolean, required: true },
   timings: {
     juma:  { type: String, required: true }

@@ -20,7 +20,7 @@ export async function GET() {
     const masjids = await Masjid.find({})
     const data = JSON.parse(JSON.stringify(masjids))
 
-    await redis.set("masjids", JSON.stringify(data), "EX", 36000)
+    await redis.set("masjids", JSON.stringify(data), "EX", 360)
     console.log("Data from ATLAS — Save in reddis")
 
     return NextResponse.json({
