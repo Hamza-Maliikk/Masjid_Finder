@@ -13,9 +13,9 @@ import { cn } from "@/lib/utils"
 
 const links = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/blog", label: "Blog" },
-  { href: "/contact", label: "Contact" },
+  { href: "/Dua", label: "Dua" },
+  { href: "/Daily-tasbih", label: "Daily tasbih" },
+  { href: "/Contact", label: "Contact" },
 ]
 
 export default function Navbar() {
