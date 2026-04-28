@@ -26,7 +26,7 @@ function getDistanceKm(
 
 // ─── MAIN PAGE ───────────────────────────────────────────────────────────────
 export default function MasjidFinderPage() {
-  const [radius, setRadius]           = useState(2);
+  const [radius, setRadius]           = useState(1);
   const [locLabel, setLocLabel]       = useState('Apni location daain');
   const [locDetected, setLocDetected] = useState(false);
   const [locLoading, setLocLoading]   = useState(false);
