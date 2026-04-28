@@ -2,35 +2,40 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import styles from './page.module.css';
+import type {IMasjid} from '../models/Masjid'
 import { MapPin } from 'lucide-react';
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────
-interface Masjid {
-  _id: string
-  name: string
-  area: string
-  dist: number
-  cap: string
-  parking: boolean
-  timings: {
-    juma?: string
-  }
+
+
+// ─── HAVERSINE FORMULA — component se bahar ──────────────────────────────────
+function getDistanceKm(
+  lat1: number, lng1: number,
+  lat2: number, lng2: number
+): number {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1 * Math.PI / 180) *
+    Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLng / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
-
-
 
 // ─── MAIN PAGE ───────────────────────────────────────────────────────────────
 export default function MasjidFinderPage() {
-  const [radius, setRadius]         = useState(2);
-  const [locLabel, setLocLabel]     = useState('Apni location daain');
+  const [radius, setRadius]           = useState(2);
+  const [locLabel, setLocLabel]       = useState('Apni location daain');
   const [locDetected, setLocDetected] = useState(false);
-  const [locLoading, setLocLoading] = useState(false);
-  const [loading, setLoading]       = useState(false);
-  const [results, setResults]       = useState<Masjid[] | null>(null);
-  const [sortAsc, setSortAsc]       = useState(true);
-  const [masjids, setMasjids]       = useState<Masjid[]>([]);
-  const [fetchError, setFetchError] = useState(false);
-  const [userCoords, setUserCoords] = useState<{lat: number, lng: number} | null>(null);
+  const [locLoading, setLocLoading]   = useState(false);
+  const [loading, setLoading]         = useState(false);
+  const [results, setResults]         = useState<IMasjid[] | null>(null);
+  const [sortAsc, setSortAsc]         = useState(true);
+  const [masjids, setMasjids]         = useState<IMasjid[]>([]);
+  const [fetchError, setFetchError]   = useState(false);
+  const [userCoords, setUserCoords]   = useState<{lat: number, lng: number} | null>(null);
 
   // ── DB se data fetch karo ─────────────────────────────────────────────────
   useEffect(() => {
@@ -47,48 +52,55 @@ export default function MasjidFinderPage() {
     getMasjids()
   }, [])
 
-  
-  
+  // ── Detect location ────────────────────────────────────────────────────────
+  const detectLocation = useCallback(() => {
+    setLocLoading(true);
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (p) => {
+          const lat = p.coords.latitude;
+          const lng = p.coords.longitude;
+          setUserCoords({ lat, lng });
+          setLocLabel(`${lat.toFixed(4)}, ${lng.toFixed(4)}`);
+          setLocDetected(true);
+          setLocLoading(false);
+        },
+        () => {
+          // Default — Karachi center
+          setUserCoords({ lat: 24.8607, lng: 67.0011 });
+          setLocLabel('Karachi (Default)');
+          setLocDetected(true);
+          setLocLoading(false);
+        }
+      );
+    }
+  }, []);
 
   // ── Radius slider ──────────────────────────────────────────────────────────
   const sliderPct = ((radius - 0.5) / 9.5) * 100;
   const handleRadius = (e: React.ChangeEvent<HTMLInputElement>) =>
     setRadius(parseFloat(e.target.value));
-  
-  // ── Detect location ────────────────────────────────────────────────────────
-const detectLocation = useCallback(() => {
-  setLocLoading(true);
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      (p) => {
-        const lat = p.coords.latitude;
-        const lng = p.coords.longitude;
-        
-        setUserCoords({ lat, lng });  // ✅ real coords save
-        setLocLabel(`${lat.toFixed(4)}, ${lng.toFixed(4)}`);
-        setLocDetected(true);
-        setLocLoading(false);
-      },
-      () => {
-        // Default — Karachi center
-        setUserCoords({ lat: 24.8607, lng: 67.0011 });
-        setLocLabel('Karachi (Default)');
-        setLocDetected(true);
-        setLocLoading(false);
-      }
-    );  
-  }
-}, []);
 
-  // ── Search ─────────────────────────────────────────────────────────────────
+  // ── Search — real distance calculate karo ─────────────────────────────────
   const doSearch = () => {
+    if (!userCoords) {
+      alert('Pehle location detect karein! 📍');
+      return;
+    }
     setResults(null);
     setLoading(true);
     setTimeout(() => {
-      const filtered = masjids.filter((m) => m.dist <= radius);
-      // Distance se sort karo — pehle paas wali
-      filtered.sort((a, b) => a.dist - b.dist);
-      setResults(filtered);
+      const withDistance = masjids
+        .map((m) => ({
+          ...m,
+          dist: parseFloat(
+            getDistanceKm(userCoords.lat, userCoords.lng, m.lat, m.lng).toFixed(1)
+          )
+        }))
+        .filter((m) => m.dist <= radius)
+        .sort((a, b) => a.dist - b.dist);
+
+      setResults(withDistance);
       setLoading(false);
       setSortAsc(true);
     }, 1200);
@@ -248,11 +260,11 @@ function Divider({ label }: { label: string }) {
   );
 }
 
-// ─── MASJID CARD — sirf Juma timing ─────────────────────────────────────────
+// ─── MASJID CARD ─────────────────────────────────────────────────────────────
 function MasjidCard({ masjid, index }: { masjid: Masjid; index: number }) {
   const openMap = () => {
-      const query = encodeURIComponent(masjid.name + " " + masjid.area + " Karachi")
-      window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank')
+    const query = encodeURIComponent(masjid.name + " " + masjid.area + " Karachi")
+    window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank')
   }
   return (
     <div
@@ -264,7 +276,6 @@ function MasjidCard({ masjid, index }: { masjid: Masjid; index: number }) {
           <div className={styles.mName}>{masjid.name}</div>
           <div className={styles.mArea}>📍 {masjid.area}</div>
         </div>
-        {/* Sirf Juma timing — database se */}
         <div className={styles.timeBadge}>
           <div className={styles.tTime}>
             {masjid.timings?.juma ?? '--:--'}
@@ -273,8 +284,7 @@ function MasjidCard({ masjid, index }: { masjid: Masjid; index: number }) {
         </div>
         <div className={styles.timeBadge}>
           <button onClick={openMap} className={styles.mapBtn}>
-            <MapPin size={16}/>  
-            
+            <MapPin size={16}/>
           </button>
         </div>
       </div>
