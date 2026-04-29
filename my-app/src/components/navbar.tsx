@@ -4,9 +4,9 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import {
   NavigationMenu,
+  NavigationMenuList,
   NavigationMenuItem,
   NavigationMenuLink,
-  NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils"
@@ -34,6 +34,7 @@ export default function Navbar() {
                 asChild
                 className={cn(
                   navigationMenuTriggerStyle(),
+                  "font-[inherit] font-sans", // 👈 yeh add karo
                   pathname === link.href && "bg-muted font-semibold"
                 )}
               >
@@ -46,4 +47,3 @@ export default function Navbar() {
     </header>
   )
 }
-
