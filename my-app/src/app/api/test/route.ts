@@ -1,5 +1,6 @@
 import connectDB from "@/lib/mongoose"
 import Masjid from "@/models/Masjid"
+import Dua from "@/models/Dua"
 import { NextResponse } from "next/server"
 import redis from "@/lib/redis"
 
@@ -18,9 +19,11 @@ export async function GET() {
 
     await connectDB()
     const masjids = await Masjid.find({})
+    const duas = await Dua.find({})
     const data = JSON.parse(JSON.stringify(masjids))
 
     await redis.set("masjids", JSON.stringify(data), "EX", 360)
+    await redis.set("duas", JSON.stringify(duas), "EX", 360)
     console.log("Data from ATLAS — Save in reddis")
 
     return NextResponse.json({

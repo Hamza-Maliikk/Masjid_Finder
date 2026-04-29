@@ -1,29 +1,20 @@
 import mongoose, { Schema, Document } from 'mongoose'
 
-export interface IMasjid extends Document {
-  name: string
-  area: string
-  dist: number
-  cap: string
-  lat: number
-  lng: number
-  parking: boolean
-  timings: {
-    juma: string
-  }
+export interface IDua extends Document {
+  title: string
+  arabic: string
+  transliteration: string
+  translation: string
 }
 
-const MasjidSchema = new Schema<IMasjid>({
-  name:    { type: String, required: true },
-  area:    { type: String, required: true },
-  dist:    { type: Number, required: true },
-  cap:     { type: String, required: true },
-  lat:   { type: Number, required: true },
-  lng:   { type: Number, required: true},
-  parking: { type: Boolean, required: true },
-  timings: {
-    juma:  { type: String, required: true }
-  }
+const DuaSchema = new Schema<IDua>({
+  title:    { type: String, required: true },
+  arabic:    { type: String, required: true },
+  transliteration: { type: String, required: true },
+  translation: { type: String, required: true }
 }, { timestamps: true })
 
-export default mongoose.models.Masjid || mongoose.model<IMasjid>('Masjid', MasjidSchema)
+export default mongoose.models.Dua || mongoose.model<IDua>('Dua', DuaSchema)
+
+
+
