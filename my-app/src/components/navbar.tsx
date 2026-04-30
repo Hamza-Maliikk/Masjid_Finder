@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils"
 const links = [
   { href: "/", label: "Home" },
   { href: "/Dua", label: "Dua" },
-  { href: "/Daily-tasbih", label: "Daily tasbih" },
+  { href: "/Surah", label: "Surah" },
   { href: "/Contact", label: "Contact" },
 ]
 
