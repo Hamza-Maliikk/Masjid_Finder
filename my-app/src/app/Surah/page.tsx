@@ -1,19 +1,13 @@
 "use client"
 import { useEffect, useState } from "react"
-
+import type { ISurah } from "@/models/Surah"
 // ── TYPES ──────────────────────────────────────────────────────────────────
-interface IAyah {
-  _id?: string
-  number: number
-  arabic: string
-  transliteration?: string
-  translation: string
-}
+
 
 // ── MAIN PAGE ──────────────────────────────────────────────────────────────
 export default function SurahKahfPage() {
-  const [ayahs, setAyahs]       = useState<IAyah[]>([])
-  const [filtered, setFiltered] = useState<IAyah[]>([])
+  const [ayahs, setAyahs]       = useState<ISurah[]>([])
+  const [filtered, setFiltered] = useState<ISurah[]>([])
   const [search, setSearch]     = useState("")
   const [loading, setLoading]   = useState(true)
   const [error, setError]       = useState(false)
@@ -29,10 +23,11 @@ export default function SurahKahfPage() {
 
   // ── Fetch ──────────────────────────────────────────────────────────────
   useEffect(() => {
-    fetch("/api/surah/kahf")
+    fetch("/api/surah")
       .then((r) => r.json())
       .then((json) => {
-        const data: IAyah[] = json.data || json.ayahs || []
+        const data: ISurah[] = json.data || []
+        console.log(data)
         setAyahs(data)
         setFiltered(data)
         setLoading(false)
@@ -44,18 +39,18 @@ export default function SurahKahfPage() {
   }, [])
 
   // ── Search ─────────────────────────────────────────────────────────────
-  const handleSearch = (q: string) => {
-    setSearch(q)
-    if (!q.trim()) { setFiltered(ayahs); return }
-    setFiltered(
-      ayahs.filter(
-        (a) =>
-          a.translation.toLowerCase().includes(q.toLowerCase()) ||
-          (a.transliteration ?? "").toLowerCase().includes(q.toLowerCase()) ||
-          a.arabic.includes(q)
-      )
-    )
-  }
+  // const handleSearch = (q: string) => {
+  //   setSearch(q)
+  //   if (!q.trim()) { setFiltered(ayahs); return }
+  //   setFiltered(
+  //     ayahs.filter(
+  //       (a) =>
+  //         a.translation.toLowerCase().includes(q.toLowerCase()) ||
+  //         (a.transliteration ?? "").toLowerCase().includes(q.toLowerCase()) ||
+  //         a.arabic.includes(q)
+  //     )
+  //   )
+  // }
 
   return (
     <div style={s.wrapper}>
@@ -124,14 +119,14 @@ export default function SurahKahfPage() {
             </div>
           ) : filtered.length === 0 ? (
             <div style={s.errorBox}>
-              <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🔍</div>
-              <p>Koi ayah nahi mili "{search}" ke liye</p>
             </div>
           ) : (
             filtered.map((ayah, i) => (
-              <AyahCard key={ayah._id ?? ayah.number} ayah={ayah} index={i} />
-            ))
-          )}
+              <AyahCard key={ayah._id ?? ayah.start} ayah={ayah} index={i} />
+            )
+          )
+          )
+          }
         </div>
       </div>
 
@@ -153,7 +148,7 @@ export default function SurahKahfPage() {
 }
 
 // ── AYAH CARD ──────────────────────────────────────────────────────────────
-function AyahCard({ ayah, index }: { ayah: IAyah; index: number }) {
+function AyahCard({ ayah, index }: { ayah: ISurah; index: number }) {
   const [hovered, setHovered] = useState(false)
 
   return (
@@ -169,20 +164,18 @@ function AyahCard({ ayah, index }: { ayah: IAyah; index: number }) {
       {/* Arabic */}
       <div style={s.ayahTop}>
         <div style={s.ayahArabic}>
-          {ayah.arabic}
-          <span style={s.ayahNumInline}>{ayah.number}</span>
+          {/* {ayah.start} */}
+          {/* <span style={s.ayahNumInline}>{ayah.surah}</span> */}
         </div>
       </div>
 
       {/* Translation */}
       <div style={s.ayahBottom}>
-        {ayah.transliteration && (
-          <div style={s.ayahTranslit}>{ayah.transliteration}</div>
+        {ayah.surah && (
+          <div style={s.ayahTranslit}>{ayah.surah}</div>
         )}
         <div style={s.ayahDivider} />
-        <div style={s.ayahTranslation}>{ayah.translation}</div>
         <div style={s.ayahFooter}>
-          <span style={s.ayahBadge}>AYAH {ayah.number}</span>
         </div>
       </div>
     </div>
