@@ -331,8 +331,9 @@ const s: Record<string, React.CSSProperties> = {
   },
   ayahBottom: { padding: "1rem 1.5rem 1.25rem", direction: "ltr" },
   ayahTranslit: {
-    fontSize: "0.82rem", color: "#97C459",
-    fontStyle: "italic", lineHeight: 1.7, marginBottom: "0.6rem", opacity: 0.88,
+    fontFamily: "'Amiri Quran','Amiri',serif",
+    fontSize: "20px", color: "#ffff",
+    fontStyle: "italic", lineHeight: 2, letterSpacing: "1px", marginBottom: "0.6rem", opacity: 0.88,
   },
   ayahDivider: { height: 1, background: "rgba(99,153,34,0.15)", margin: "0.6rem 0" },
   ayahTranslation: { fontSize: "0.88rem", color: "#B4B2A9", lineHeight: 1.8 },

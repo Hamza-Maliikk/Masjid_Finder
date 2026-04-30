@@ -15,7 +15,7 @@ const links = [
   { href: "/", label: "Home" },
   { href: "/Dua", label: "Dua" },
   { href: "/Surah", label: "Surah" },
-  { href: "/Contact", label: "Contact" },
+  { href: "/Store", label: "Store" },
 ]
 
 export default function Navbar() {
