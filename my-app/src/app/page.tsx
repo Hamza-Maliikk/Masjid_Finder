@@ -2,11 +2,24 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import styles from './page.module.css';
-import type {IMasjid} from '../models/Masjid'
-import { MapPin } from 'lucide-react';
+import type {IMasjid} from '../models/Masjid';
+import { MapPin, Search as SearchIcon, Navigation } from 'lucide-react';
+import { Poppins, Noto_Nastaliq_Urdu } from 'next/font/google';
+
+const poppins = Poppins({
+  weight: ['300', '400', '500', '600', '700'],
+  subsets: ['latin'],
+});
+
+const nastaliq = Noto_Nastaliq_Urdu({
+  weight: ['400', '700'],
+  subsets: ['arabic'],
+});
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────
-
+interface IMasjidWithDist extends IMasjid {
+  dist: number;
+}
 
 // ─── HAVERSINE FORMULA — component se bahar ──────────────────────────────────
 function getDistanceKm(
@@ -31,7 +44,7 @@ export default function MasjidFinderPage() {
   const [locDetected, setLocDetected] = useState(false);
   const [locLoading, setLocLoading]   = useState(false);
   const [loading, setLoading]         = useState(false);
-  const [results, setResults]         = useState<IMasjid[] | null>(null);
+  const [results, setResults]         = useState<IMasjidWithDist[] | null>(null);
   const [sortAsc, setSortAsc]         = useState(true);
   const [masjids, setMasjids]         = useState<IMasjid[]>([]);
   const [fetchError, setFetchError]   = useState(false);
@@ -100,7 +113,7 @@ export default function MasjidFinderPage() {
         .filter((m) => m.dist <= radius)
         .sort((a, b) => a.dist - b.dist);
 
-      setResults(withDistance);
+      setResults(withDistance as IMasjidWithDist[]);
       setLoading(false);
       setSortAsc(true);
     }, 1200);
@@ -115,62 +128,58 @@ export default function MasjidFinderPage() {
   };
 
   return (
-    <div className={styles.wrapper}>
+    <div className={`${styles.wrapper} ${poppins.className}`}>
       <div className={styles.container}>
 
         {/* ── HERO ─────────────────────────────────────────────────────────── */}
         <header className={styles.hero}>
-          <p className={styles.bismillah}>بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
+          <p className={`${styles.bismillah} ${nastaliq.className}`}>بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
           <div className={styles.domeIcon}>🕌</div>
-          <h1 className={styles.heroTitle}>قریبی مسجد تلاش کریں</h1>
+          <h1 className={`${styles.heroTitle} ${nastaliq.className}`}>قریبی مسجد تلاش کریں</h1>
           <p className={styles.heroSubtitle}>
             Karachi mein Jumma ki namaz ke liye qareeb ki masjid dhundein
           </p>
           {/* DB status */}
-          <p style={{ fontSize: 11, marginTop: 8, opacity: 0.5 }}>
+          <div className={styles.dbStatusBadge}>
             {fetchError
-              ? '⚠️ Database se data nahi aaya'
+              ? '⚠️ Database Error'
               : masjids.length > 0
-              ? `✅ ${masjids.length} masajid database se load huin`
-              : '⏳ Data load ho raha hai...'}
-          </p>
+              ? `✅ ${masjids.length} Masajid Loaded`
+              : '⏳ Loading Data...'}
+          </div>
         </header>
 
         {/* ── LOCATION ─────────────────────────────────────────────────────── */}
         <section className={styles.section}>
           <div className={styles.secLabel}>📍 Aapki Location</div>
           <div className={styles.locBox}>
-            <span className={styles.locIcon}>🗺️</span>
+            <div className={styles.locIconWrap}>
+              <Navigation size={24} color="var(--gold)" />
+            </div>
             <div className={styles.locText}>
               <div className={styles.locMain}>{locLabel}</div>
               <div className={styles.locSub}>
                 {locDetected
-                  ? 'Location set ho gayi ✓'
-                  : 'GPS se automatic detect karein'}
+                  ? 'Location Set Successfully ✓'
+                  : 'Detect via GPS for accuracy'}
               </div>
             </div>
             <button
               className={styles.locBtn}
               onClick={detectLocation}
               disabled={locLoading || locDetected}
-              style={locDetected ? { background: '#4ade80' } : {}}
+              style={locDetected ? { background: '#4ade80', color: '#0d3a27' } : {}}
             >
               {locLoading ? '⏳' : locDetected ? '✓' : 'Detect'}
             </button>
           </div>
-          {locDetected && (
-            <div className={styles.locDetected}>
-              <span className={styles.dot} />
-              <span>{locLabel} — ready hai!</span>
-            </div>
-          )}
         </section>
 
-        <Divider label="Faasla" />
+        <Divider label="Faasla (Distance)" />
 
         {/* ── RADIUS ───────────────────────────────────────────────────────── */}
         <section className={styles.section}>
-          <div className={styles.secLabel}>📏 Kitni Door tak Dhundhen?</div>
+          <div className={styles.secLabel}>📏 Kitni Door Tak Dhundhen?</div>
           <input
             type="range"
             className={styles.radiusSlider}
@@ -184,7 +193,7 @@ export default function MasjidFinderPage() {
           <div className={styles.radiusLabels}>
             <span>500m</span><span>2.5km</span><span>5km</span><span>10km</span>
           </div>
-          <div className={styles.radiusValue}>{radius} km ke andar</div>
+          <div className={styles.radiusValue}>{radius} km Range</div>
         </section>
 
         {/* ── SEARCH BUTTON ────────────────────────────────────────────────── */}
@@ -194,8 +203,8 @@ export default function MasjidFinderPage() {
             onClick={doSearch}
             disabled={loading || masjids.length === 0}
           >
-            <span>🔍</span>{' '}
-            {masjids.length === 0 ? 'Data load ho raha hai...' : 'Masjid Dhundho'}
+            <SearchIcon size={20} />
+            {masjids.length === 0 ? 'Loading Data...' : 'Find Masjid'}
           </button>
         </div>
 
@@ -212,10 +221,10 @@ export default function MasjidFinderPage() {
           <div className={styles.results}>
             <div className={styles.resHeader}>
               <div className={styles.resCount}>
-                <span>{results.length}</span> masajid mili
+                <span>{results.length}</span> Masajid Found
               </div>
               <button className={styles.sortBtn} onClick={toggleSort}>
-                {sortAsc ? '↑' : '↓'} Faasle se sort
+                {sortAsc ? '↑ Nearest First' : '↓ Furthest First'}
               </button>
             </div>
 
@@ -246,12 +255,12 @@ function Divider({ label }: { label: string }) {
   return (
     <div style={{
       display: 'flex', alignItems: 'center',
-      gap: 12, padding: '20px 20px 0',
+      gap: 12, padding: '30px 20px 10px',
     }}>
       <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.1)' }} />
       <span style={{
-        fontSize: 10, color: 'rgba(255,255,255,0.3)',
-        letterSpacing: 1, textTransform: 'uppercase',
+        fontSize: 11, color: 'rgba(255,255,255,0.4)',
+        letterSpacing: 2, textTransform: 'uppercase', fontWeight: 600
       }}>
         {label}
       </span>
@@ -261,7 +270,7 @@ function Divider({ label }: { label: string }) {
 }
 
 // ─── MASJID CARD ─────────────────────────────────────────────────────────────
-function MasjidCard({ masjid, index }: { masjid: Masjid; index: number }) {
+function MasjidCard({ masjid, index }: { masjid: IMasjidWithDist; index: number }) {
   const openMap = () => {
     const query = encodeURIComponent(masjid.name + " " + masjid.area + " Karachi")
     window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank')
@@ -272,7 +281,7 @@ function MasjidCard({ masjid, index }: { masjid: Masjid; index: number }) {
       style={{ animationDelay: `${index * 0.07}s` }}
     >
       <div className={styles.cardTop}>
-        <div>
+        <div style={{flex: 1}}>
           <div className={styles.mName}>{masjid.name}</div>
           <div className={styles.mArea}>📍 {masjid.area}</div>
         </div>
@@ -282,17 +291,15 @@ function MasjidCard({ masjid, index }: { masjid: Masjid; index: number }) {
           </div>
           <div className={styles.tLabel}>Juma</div>
         </div>
-        <div className={styles.timeBadge}>
-          <button onClick={openMap} className={styles.mapBtn}>
-            <MapPin size={16}/>
-          </button>
-        </div>
+        <button onClick={openMap} className={styles.mapBtn} aria-label="Open in Maps">
+          <MapPin size={18}/>
+        </button>
       </div>
       <div className={styles.cardInfo}>
         <span className={styles.distBadge}>📏 {masjid.dist} km</span>
-        <span className={styles.infoChip}>👥 {masjid.cap}</span>
+        <span className={styles.infoChip}>👥 Cap: {masjid.cap}</span>
         <span className={styles.infoChip}>
-          {masjid.parking ? '🅿️ Parking' : '🚫 No parking'}
+          {masjid.parking ? '🅿️ Parking' : '🚫 No Parking'}
         </span>
       </div>
     </div>
