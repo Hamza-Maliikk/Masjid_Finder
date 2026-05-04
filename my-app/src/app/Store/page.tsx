@@ -1,4 +1,4 @@
-// 'use client';
+'use client';
 
 // import { useState } from 'react';
 // import { Poppins } from 'next/font/google';
@@ -73,7 +73,10 @@
 //   }
 // ];
 
-// export default function StorePage() {
+export default function StorePage() {
+  return (
+    <h1>Islamic Store</h1>
+  )
 //   const [activeCategory, setActiveCategory] = useState('All');
 //   const [searchQuery, setSearchQuery] = useState('');
 //   const [cartCount, setCartCount] = useState(0);
@@ -174,4 +177,4 @@
 //       </div>
 //     </div>
 //   );
-// }
+}

@@ -5,7 +5,10 @@
 
 
 // // ── MAIN PAGE ──────────────────────────────────────────────────────────────
-// export default function SurahKahfPage() {
+export default function SurahKahfPage() {
+  return(
+  <h1>HI</h1>
+  )
 //   const [ayahs, setAyahs]       = useState<ISurah[]>([])
 //   const [filtered, setFiltered] = useState<ISurah[]>([])
 //   const [search, setSearch]     = useState("")
@@ -175,8 +178,8 @@
 // }
 
 // ── SEPARATOR ──────────────────────────────────────────────────────────────
-function Separator({ label }: { label: string }) {
-  return (
+// function Separator({ label }: { label: string }) {
+  // return (
     // <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "1rem 0 1.5rem" }}>
     //   <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.08)" }} />
     //   <span style={{ fontSize: 10, color: "rgba(255,255,255,0.25)", letterSpacing: 2, textTransform: "uppercase" as const }}>
@@ -184,9 +187,9 @@ function Separator({ label }: { label: string }) {
     //   </span>
     //   <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.08)" }} />
     // </div>
-    <h1>HI</h1>
-  )
-}
+    
+  // )
+// }
 
 // ── STYLES ─────────────────────────────────────────────────────────────────
 // const s: Record<string, React.CSSProperties> = {
@@ -330,4 +333,4 @@ function Separator({ label }: { label: string }) {
 
 //   // Error
 //   errorBox: { textAlign: "center", color: "#C0DD97", padding: "3rem", gridColumn: "1/-1" },
-// }
+}

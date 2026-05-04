@@ -1,8 +1,11 @@
-// "use client"
+"use client"
 // import type { IDua } from "@/models/Dua"
 // import { useEffect, useState } from "react"
 
-// export default function DuasPage() {
+export default function DuasPage() {
+  return(
+    <h1>Islamic Duas</h1>
+  )
 //   const [duas, setDuas] = useState<IDua[]>([])
 //   const [search, setSearch] = useState("")
 //   const [loading, setLoading] = useState(true)
@@ -157,4 +160,4 @@
 //       `}</style>
 //     </div>
 //   )
-// }
+}
