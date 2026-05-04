@@ -23,7 +23,11 @@ export default function SurahKahfPage() {
 
   // ── Fetch ──────────────────────────────────────────────────────────────
   useEffect(() => {
-    fetch("/api/surah")
+    fetch("/api/surah", {
+      headers: {
+    "ngrok-skip-browser-warning": "true",
+  },
+    })
       .then((r) => r.json())
       .then((json) => {
         const data: ISurah[] = json.data || []
@@ -38,19 +42,7 @@ export default function SurahKahfPage() {
       })
   }, [])
 
-  // ── Search ─────────────────────────────────────────────────────────────
-  // const handleSearch = (q: string) => {
-  //   setSearch(q)
-  //   if (!q.trim()) { setFiltered(ayahs); return }
-  //   setFiltered(
-  //     ayahs.filter(
-  //       (a) =>
-  //         a.translation.toLowerCase().includes(q.toLowerCase()) ||
-  //         (a.transliteration ?? "").toLowerCase().includes(q.toLowerCase()) ||
-  //         a.arabic.includes(q)
-  //     )
-  //   )
-  // }
+
 
   return (
     <div style={s.wrapper}>
@@ -79,22 +71,7 @@ export default function SurahKahfPage() {
           </p>
         </header>
 
-        {/* ── SEARCH ─────────────────────────────────────────────────────── */}
-        <div style={s.searchWrap}>
-          <span style={s.searchIcon}>🔍</span>
-          <input
-            type="text"
-            placeholder="Search ayaat (translation / transliteration)..."
-            value={search}
-            onChange={(e) => handleSearch(e.target.value)}
-            style={s.searchInput}
-          />
-          {search && (
-            <p style={s.searchCount}>
-              {filtered.length} ayah{filtered.length !== 1 ? "s" : ""} mili
-            </p>
-          )}
-        </div>
+    
 
         {/* ── SEPARATOR ──────────────────────────────────────────────────── */}
         <Separator label="Ayaat" />
@@ -122,7 +99,7 @@ export default function SurahKahfPage() {
             </div>
           ) : (
             filtered.map((ayah, i) => (
-              <AyahCard key={ayah._id ?? ayah.start} ayah={ayah} index={i} />
+              <AyahCard key={String(ayah._id ?? ayah.start)} ayah={ayah} index={i} />
             )
           )
           )

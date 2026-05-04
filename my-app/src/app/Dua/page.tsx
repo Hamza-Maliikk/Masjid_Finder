@@ -16,7 +16,11 @@ export default function DuasPage() {
     document.head.appendChild(link)
 
     // Data fetch karo
-    fetch("/api/dua")
+    fetch("/api/dua", {
+      headers: {
+        "ngrok-skip-browser-warning": "true",
+      },
+    })
       .then(res => res.json())
       .then(data => {
         setDuas(data.data || [])
