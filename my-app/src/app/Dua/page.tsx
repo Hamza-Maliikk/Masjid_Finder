@@ -98,7 +98,7 @@ export default function DuasPage() {
         ) : filtered.length === 0 ? (
           <div style={{ gridColumn: "1/-1", textAlign: "center", color: "#639922", padding: "3rem" }}>
             <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🔍</div>
-            <p>Koi dua nahi mili "{search}" ke liye</p>
+            <p>Koi dua nahi mili ke liye</p>
           </div>
         ) : (
           filtered.map((dua, i) => (
