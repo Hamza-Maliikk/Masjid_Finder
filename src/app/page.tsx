@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect } from "react";
 import styles from "./page.module.css";
 import type { IMasjid } from "../models/Masjid";
-import { MapPin, Navigation } from "lucide-react";
+import { MapPin, Navigation, Loader2, CheckCircle2, AlertTriangle } from "lucide-react";
 import { Poppins, Noto_Nastaliq_Urdu } from "next/font/google";
 
 const poppins = Poppins({
@@ -16,75 +16,63 @@ const nastaliq = Noto_Nastaliq_Urdu({
   subsets: ["arabic"],
 });
 
-// ─── TYPES ───────────────────────────────────────────────────────────────────
 interface IMasjidWithDist extends IMasjid {
   dist: number;
 }
 
-// ─── HAVERSINE FORMULA ───────────────────────────────────────────────────────
-function getDistanceKm(
-  lat1: number,
-  lng1: number,
-  lat2: number,
-  lng2: number,
-): number {
+function getDistanceKm(lat1: number, lng1: number, lat2: number, lng2: number): number {
   const R = 6371;
   const dLat = ((lat2 - lat1) * Math.PI) / 180;
   const dLng = ((lng2 - lng1) * Math.PI) / 180;
   const a =
     Math.sin(dLat / 2) ** 2 +
     Math.cos((lat1 * Math.PI) / 180) *
-      Math.cos((lat2 * Math.PI) / 180) *
-      Math.sin(dLng / 2) ** 2;
+    Math.cos((lat2 * Math.PI) / 180) *
+    Math.sin(dLng / 2) ** 2;
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
-// ─── MAIN PAGE ───────────────────────────────────────────────────────────────
 export default function MasjidFinderPage() {
   const [locLabel, setLocLabel] = useState("Apni location daain");
   const [locDetected, setLocDetected] = useState(false);
   const [locLoading, setLocLoading] = useState(false);
+  const [locError, setLocError] = useState(false);
   const [results, setResults] = useState<IMasjidWithDist[] | null>(null);
   const [sortAsc, setSortAsc] = useState(true);
   const [masjids, setMasjids] = useState<IMasjid[]>([]);
   const [fetchError, setFetchError] = useState(false);
-  const [userCoords, setUserCoords] = useState<{
-    lat: number;
-    lng: number;
-  } | null>(null);
+  const [dataLoading, setDataLoading] = useState(true);
+  const [userCoords, setUserCoords] = useState<{ lat: number; lng: number } | null>(null);
 
-  // ── DB se data fetch ──────────────────────────────────────────────────────
+  // Fetch masjids from DB
   useEffect(() => {
     async function getMasjids() {
       try {
         const res = await fetch("/api/test", {
-          headers: {
-            "ngrok-skip-browser-warning": "true",
-          },
+          headers: { "ngrok-skip-browser-warning": "true" },
         });
+        if (!res.ok) throw new Error("Response not ok");
         const json = await res.json();
-        setMasjids(json.data);
+        setMasjids(Array.isArray(json.data) ? json.data : []);
       } catch (err) {
         console.error("Data fetch nahi hua:", err);
         setFetchError(true);
+      } finally {
+        setDataLoading(false);
       }
     }
     getMasjids();
   }, []);
 
-  // ── REAL-TIME SEARCH — location ya masjids aaye to turant update ──────────
+  // Recalculate results when coords, masjids, or sort changes
   useEffect(() => {
     if (!userCoords || masjids.length === 0) return;
-
-    console.log("User coords:", userCoords);
-    console.log("Total masjids:", masjids.length);
-    console.log("Sample masjid:", masjids[0]);
 
     const withDistance = masjids
       .map((m) => ({
         ...m,
         dist: parseFloat(
-          getDistanceKm(userCoords.lat, userCoords.lng, m.lat, m.lng).toFixed(2),
+          getDistanceKm(userCoords.lat, userCoords.lng, m.lat, m.lng).toFixed(2)
         ),
       }))
       .filter((m) => m.dist <= 1)
@@ -93,127 +81,177 @@ export default function MasjidFinderPage() {
     setResults(withDistance as IMasjidWithDist[]);
   }, [userCoords, masjids, sortAsc]);
 
-  // ── Detect location ───────────────────────────────────────────────────────
   const detectLocation = useCallback(() => {
+    if (locDetected || locLoading) return;
     setLocLoading(true);
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (p) => {
-          const lat = p.coords.latitude;
-          const lng = p.coords.longitude;
-          setUserCoords({ lat, lng });
-          setLocLabel(`${lat.toFixed(4)}, ${lng.toFixed(4)}`);
-          setLocDetected(true);
-          setLocLoading(false);
-        },
-        () => {
-          // Default — Karachi center
-          setUserCoords({ lat: 24.8607, lng: 67.0011 });
-          setLocLabel("Karachi (Default)");
-          setLocDetected(true);
-          setLocLoading(false);
-        },
-      );
-    }
-  }, []);
+    setLocError(false);
 
-  // ── Sort toggle ───────────────────────────────────────────────────────────
-  const toggleSort = () => setSortAsc((prev) => !prev);
+    if (!navigator.geolocation) {
+      setLocError(true);
+      setLocLoading(false);
+      setLocLabel("Geolocation supported nahi");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (p) => {
+        const lat = p.coords.latitude;
+        const lng = p.coords.longitude;
+        setUserCoords({ lat, lng });
+        setLocLabel(`${lat.toFixed(4)}°N, ${lng.toFixed(4)}°E`);
+        setLocDetected(true);
+        setLocLoading(false);
+      },
+      () => {
+        // Graceful fallback to Karachi center
+        setUserCoords({ lat: 24.8607, lng: 67.0011 });
+        setLocLabel("Karachi Centre (Default)");
+        setLocDetected(true);
+        setLocLoading(false);
+      },
+      { timeout: 8000, maximumAge: 60000 }
+    );
+  }, [locDetected, locLoading]);
+
+  const toggleSort = () => setSortAsc((p) => !p);
+
+  const resetLocation = () => {
+    setLocDetected(false);
+    setLocLabel("Apni location daain");
+    setUserCoords(null);
+    setResults(null);
+    setLocError(false);
+  };
 
   return (
     <div className={`${styles.wrapper} ${poppins.className}`}>
+      {/* Background orbs */}
+      <div className={styles.orb1} />
+      <div className={styles.orb2} />
+      <div className={styles.orb3} />
+
       <div className={styles.container}>
 
-        {/* ── HERO ─────────────────────────────────────────────────────────── */}
+        {/* ── HERO ── */}
         <header className={styles.hero}>
-          <p className={`${styles.bismillah} ${nastaliq.className}`}>
-            بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
-          </p>
-          <div className={styles.domeIcon}>🕌</div>
+          <div className={styles.bismillahWrap}>
+            <p className={`${styles.bismillah} ${nastaliq.className}`}>
+              بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
+            </p>
+          </div>
+          <div className={styles.domeWrap}>
+            <span className={styles.domeIcon}>🕌</span>
+            <div className={styles.domePulse} />
+          </div>
           <h1 className={`${styles.heroTitle} ${nastaliq.className}`}>
             قریبی مسجد تلاش کریں
           </h1>
           <p className={styles.heroSubtitle}>
             Karachi mein Jumma ki namaz ke liye qareeb ki masjid dhundein
           </p>
-          <div className={styles.dbStatusBadge}>
-            {fetchError
-              ? "⚠️ Database Error"
-              : masjids.length > 0
-                ? `✅ ${masjids.length} Masajid Loaded`
-                : "⏳ Loading Data..."}
+
+          {/* DB Status */}
+          <div className={`${styles.dbBadge} ${fetchError ? styles.dbError : dataLoading ? styles.dbLoading : styles.dbOk}`}>
+            {fetchError ? (
+              <><AlertTriangle size={13} /> Database Error</>
+            ) : dataLoading ? (
+              <><Loader2 size={13} className={styles.spin} /> Loading Data...</>
+            ) : (
+              <><CheckCircle2 size={13} /> {masjids.length} Masajid Loaded</>
+            )}
           </div>
         </header>
 
-        {/* ── LOCATION ─────────────────────────────────────────────────────── */}
-        <section className={styles.section}>
-          <div className={styles.secLabel}>📍 Aapki Location</div>
-          <div className={styles.locBox}>
-            <div className={styles.locIconWrap}>
-              <Navigation size={24} color="var(--gold)" />
+        {/* ── LOCATION CARD ── */}
+        <section className={styles.card}>
+          <div className={styles.cardLabel}>
+            <MapPin size={14} />
+            Aapki Location
+          </div>
+
+          <div className={styles.locRow}>
+            <div className={`${styles.locIconBox} ${locDetected ? styles.locIconActive : ""}`}>
+              <Navigation size={20} />
             </div>
-            <div className={styles.locText}>
+
+            <div className={styles.locInfo}>
               <div className={styles.locMain}>{locLabel}</div>
               <div className={styles.locSub}>
-                {locDetected
-                  ? "Location Set — 1km ke andar masajid dikh rahi hain ✓"
-                  : "Detect via GPS for accuracy"}
+                {locError
+                  ? "⚠️ Location nahi mili — default use ho raha hai"
+                  : locDetected
+                  ? "✓ 1km range mein masajid dikh rahi hain"
+                  : "GPS se detect karein accurate results ke liye"}
               </div>
             </div>
-            <button
-              className={styles.locBtn}
-              onClick={detectLocation}
-              disabled={locLoading || locDetected}
-              style={
-                locDetected ? { background: "#4ade80", color: "#0d3a27" } : {}
-              }
-            >
-              {locLoading ? "⏳" : locDetected ? "✓" : "Detect"}
-            </button>
+
+            <div className={styles.locActions}>
+              {locDetected ? (
+                <button className={styles.resetBtn} onClick={resetLocation} title="Reset location">
+                  ↺
+                </button>
+              ) : (
+                <button
+                  className={styles.detectBtn}
+                  onClick={detectLocation}
+                  disabled={locLoading}
+                >
+                  {locLoading ? <Loader2 size={16} className={styles.spin} /> : "Detect"}
+                </button>
+              )}
+            </div>
           </div>
         </section>
 
-        {/* ── NO LOCATION WARNING ───────────────────────────────────────────── */}
-        {!locDetected && (
-          <div
-            style={{
-              textAlign: "center",
-              padding: "16px",
-              color: "rgba(255,255,255,0.5)",
-              fontSize: "13px",
-            }}
-          >
-            ⬆️ Pehle apni location detect karein
+        {/* ── PROMPT ── */}
+        {!locDetected && !locLoading && (
+          <div className={styles.prompt}>
+            <span className={styles.promptArrow}>↑</span>
+            Pehle apni location detect karein
           </div>
         )}
 
-        {/* ── RESULTS ──────────────────────────────────────────────────────── */}
+        {/* ── LOADING STATE ── */}
+        {locLoading && (
+          <div className={styles.loadingState}>
+            <Loader2 size={28} className={styles.spin} />
+            <p>Location dhundh raha hoon...</p>
+          </div>
+        )}
+
+        {/* ── RESULTS ── */}
         {results !== null && locDetected && (
-          <div className={styles.results}>
+          <section className={styles.results}>
             <div className={styles.resHeader}>
               <div className={styles.resCount}>
-                <span>{results.length}</span> Masajid Found (1km range)
+                <span className={styles.resNum}>{results.length}</span>
+                <span> Masajid mili {results.length === 0 ? "" : "(1km range)"}</span>
               </div>
-              <button className={styles.sortBtn} onClick={toggleSort}>
-                {sortAsc ? "↑ Nearest First" : "↓ Furthest First"}
-              </button>
+              {results.length > 1 && (
+                <button className={styles.sortBtn} onClick={toggleSort}>
+                  {sortAsc ? "↑ Nearest First" : "↓ Furthest First"}
+                </button>
+              )}
             </div>
 
             {results.length === 0 ? (
               <div className={styles.noRes}>
-                <div className={styles.noResEmoji}>🔍</div>
-                <p>
-                  1km ke andar koi masjid nahi mili.
+                <div className={styles.noResIcon}>🔍</div>
+                <p className={styles.noResTitle}>Koi masjid nahi mili</p>
+                <p className={styles.noResSub}>
+                  1km ke andar koi masjid record mein nahi hai.
                   <br />
-                  Database mein data check karein.
+                  Database mein data check karein ya range barhaein.
                 </p>
               </div>
             ) : (
-              results.map((m, i) => (
-                <MasjidCard key={String(m._id)} masjid={m} index={i} />
-              ))
+              <div className={styles.cardGrid}>
+                {results.map((m, i) => (
+                  <MasjidCard key={String(m._id)} masjid={m} index={i} />
+                ))}
+              </div>
             )}
-          </div>
+          </section>
         )}
       </div>
     </div>
@@ -221,21 +259,10 @@ export default function MasjidFinderPage() {
 }
 
 // ─── MASJID CARD ─────────────────────────────────────────────────────────────
-function MasjidCard({
-  masjid,
-  index,
-}: {
-  masjid: IMasjidWithDist;
-  index: number;
-}) {
+function MasjidCard({ masjid, index }: { masjid: IMasjidWithDist; index: number }) {
   const openMap = () => {
-    const query = encodeURIComponent(
-      masjid.name + " " + masjid.area + " Karachi",
-    );
-    window.open(
-      `https://www.google.com/maps/search/?api=1&query=${query}`,
-      "_blank",
-    );
+    const query = encodeURIComponent(`${masjid.name} ${masjid.area} Karachi`);
+    window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, "_blank");
   };
 
   const distDisplay =
@@ -244,33 +271,34 @@ function MasjidCard({
       : `${masjid.dist}km`;
 
   return (
-    <div
-      className={styles.masjidCard}
-      style={{ animationDelay: `${index * 0.07}s` }}
-    >
-      <div className={styles.cardTop}>
-        <div style={{ flex: 1 }}>
-          <div className={styles.mName}>{masjid.name}</div>
-          <div className={styles.mArea}>📍 {masjid.area}</div>
+    <div className={styles.masjidCard} style={{ animationDelay: `${index * 0.07}s` }}>
+      <div className={styles.cardInner}>
+        <div className={styles.mHeader}>
+          <div className={styles.mIcon}>🕌</div>
+          <div className={styles.mTitles}>
+            <div className={styles.mName}>{masjid.name}</div>
+            <div className={styles.mArea}>
+              <MapPin size={11} />
+              {masjid.area}
+            </div>
+          </div>
+          <div className={styles.jumaBlock}>
+            <div className={styles.jumaTime}>{masjid.timings?.juma ?? "--:--"}</div>
+            <div className={styles.jumaLabel}>Juma</div>
+          </div>
         </div>
-        <div className={styles.timeBadge}>
-          <div className={styles.tTime}>{masjid.timings?.juma ?? "--:--"}</div>
-          <div className={styles.tLabel}>Juma</div>
+
+        <div className={styles.mFooter}>
+          <span className={styles.distPill}>📏 {distDisplay}</span>
+          <span className={styles.infoPill}>👥 {masjid.cap ?? "N/A"}</span>
+          <span className={styles.infoPill}>
+            {masjid.parking ? "🅿️ Parking" : "🚫 No Parking"}
+          </span>
+          <button className={styles.mapBtn} onClick={openMap} aria-label="Maps mein kholo">
+            <MapPin size={14} />
+            Maps
+          </button>
         </div>
-        <button
-          onClick={openMap}
-          className={styles.mapBtn}
-          aria-label="Open in Maps"
-        >
-          <MapPin size={18} />
-        </button>
-      </div>
-      <div className={styles.cardInfo}>
-        <span className={styles.distBadge}>📏 {distDisplay}</span>
-        <span className={styles.infoChip}>👥 Cap: {masjid.cap ?? "N/A"}</span>
-        <span className={styles.infoChip}>
-          {masjid.parking ? "🅿️ Parking" : "🚫 No Parking"}
-        </span>
       </div>
     </div>
   );
