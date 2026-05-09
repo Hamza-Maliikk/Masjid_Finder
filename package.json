@@ -7,7 +7,7 @@
     "seed": "tsx src/script/seedMasjid.ts",
     "dua": "tsx src/script/seedDua.ts",
     "surah": "tsx src/script/seedSurah.ts",
-    "store": "tsx src/script/seedStore.ts",
+    "cm": "tsx src/script/seedStore.ts",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
