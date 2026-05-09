@@ -31,24 +31,20 @@ export default function Navbar() {
         .navbar-pill {
           max-width: 860px;
           margin: 0 auto;
-          background: rgba(5, 40, 20, 0.45);
-          backdrop-filter: blur(28px) saturate(200%) brightness(1.1);
-          -webkit-backdrop-filter: blur(28px) saturate(200%) brightness(1.1);
-          border: 1px solid rgba(196, 164, 72, 0.25);
+          background: rgba(255, 255, 255, 0.04);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border: 1px solid rgba(255, 255, 255, 0.08);
           border-radius: 60px;
           padding: 10px 28px;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          box-shadow:
-            0 4px 24px rgba(0, 0, 0, 0.35),
-            0 1px 0 rgba(196, 164, 72, 0.15) inset,
-            0 0 0 1px rgba(255,255,255,0.04) inset;
           position: relative;
           overflow: hidden;
+          box-shadow: 0 4px 24px rgba(0,0,0,0.2), 0 1px 0 rgba(255,255,255,0.05) inset;
         }
 
-        /* shimmer top highlight */
         .navbar-pill::before {
           content: '';
           position: absolute;
@@ -56,27 +52,41 @@ export default function Navbar() {
           height: 1px;
           background: linear-gradient(90deg,
             transparent,
-            rgba(196, 164, 72, 0.5) 35%,
-            rgba(255, 220, 120, 0.9) 50%,
-            rgba(196, 164, 72, 0.5) 65%,
+            rgba(201, 168, 76, 0.3) 30%,
+            rgba(201, 168, 76, 0.85) 50%,
+            rgba(201, 168, 76, 0.3) 70%,
             transparent
           );
+        }
+
+        .brand-area {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          text-decoration: none;
+        }
+
+        .brand-icon {
+          font-size: 20px;
+          line-height: 1;
+          filter: drop-shadow(0 0 8px rgba(14, 158, 138, 0.3));
+        }
+
+        .brand-divider {
+          width: 1px;
+          height: 18px;
+          background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.08), transparent);
+          margin: 0 2px;
         }
 
         .brand-text {
           font-family: 'Cinzel', serif;
           font-weight: 500;
-          font-size: 1rem;
-          letter-spacing: 0.15em;
-          background: linear-gradient(135deg, #e8d5a3 0%, #c4a448 50%, #f0e0b0 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          text-decoration: none;
-          transition: opacity 0.2s;
+          font-size: 0.92rem;
+          letter-spacing: 0.18em;
+          color: #c9a84c;
+          text-shadow: 0 0 20px rgba(201, 168, 76, 0.35);
         }
-
-        .brand-text:hover { opacity: 0.8; }
 
         .nav-links {
           display: flex;
@@ -86,31 +96,31 @@ export default function Navbar() {
 
         .nav-link {
           font-family: 'Cinzel', serif;
-          font-size: 0.7rem;
+          font-size: 0.65rem;
           letter-spacing: 0.2em;
           text-transform: uppercase;
           font-weight: 400;
-          color: rgba(220, 200, 150, 0.7);
+          color: rgba(255, 255, 255, 0.45);
           padding: 7px 16px;
           border-radius: 40px;
           text-decoration: none;
-          transition: all 0.3s ease;
-          position: relative;
+          border: 1px solid transparent;
+          transition: all 0.25s ease;
           white-space: nowrap;
         }
 
         .nav-link:hover {
-          color: #f0e0a0;
-          background: rgba(196, 164, 72, 0.12);
+          color: rgba(255, 255, 255, 0.92);
+          border-color: rgba(14, 158, 138, 0.25);
+          background: rgba(14, 158, 138, 0.15);
         }
 
         .nav-link.active {
-          color: #1a3a1a;
-          background: linear-gradient(135deg, #c4a448, #e8c96a, #c4a448);
+          background: linear-gradient(135deg, #0e9e8a, #07b89f);
+          color: #fff;
           font-weight: 600;
-          box-shadow:
-            0 2px 12px rgba(196, 164, 72, 0.45),
-            0 1px 0 rgba(255,255,255,0.25) inset;
+          border-color: transparent;
+          box-shadow: 0 3px 12px rgba(14, 158, 138, 0.3);
         }
 
         .navbar-spacer {
@@ -120,7 +130,11 @@ export default function Navbar() {
 
       <div className="navbar-wrapper">
         <div className="navbar-pill">
-          <Link href="/" className="brand-text">MyApp</Link>
+          <Link href="/" className="brand-area">
+            <span className="brand-icon">🕌</span>
+            <div className="brand-divider" />
+            <span className="brand-text">Masjid Finder</span>
+          </Link>
 
           <nav className="nav-links">
             {links.map((link) => (
