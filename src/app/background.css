@@ -1,27 +1,25 @@
-/* Add this to your global CSS (globals.css) or layout */
+/* globals.css */
 
-/* Rich layered background so glass blur is visible */
 body {
-  background-color: #052a12;
+  background-color: #060d1a;
   background-image:
-    /* Radial glow top-left */
-    radial-gradient(ellipse 60% 50% at 15% 10%, rgba(100, 160, 80, 0.18) 0%, transparent 70%),
-    /* Radial glow bottom-right */
-    radial-gradient(ellipse 50% 60% at 85% 90%, rgba(30, 90, 50, 0.25) 0%, transparent 70%),
-    /* Gold shimmer center */
-    radial-gradient(ellipse 40% 30% at 50% 40%, rgba(196, 164, 72, 0.06) 0%, transparent 60%),
-    /* Subtle noise texture via repeating pattern */
+    /* Teal glow top-left — same as orb1 */
+    radial-gradient(ellipse 60% 50% at 15% 10%, rgba(14, 158, 138, 0.18) 0%, transparent 70%),
+    /* Teal glow bottom-left — same as orb3 */
+    radial-gradient(ellipse 50% 60% at 20% 90%, rgba(14, 158, 138, 0.10) 0%, transparent 70%),
+    /* Gold shimmer right — same as orb2 */
+    radial-gradient(ellipse 40% 50% at 85% 35%, rgba(201, 168, 76, 0.12) 0%, transparent 70%),
+    /* Subtle noise texture */
     repeating-linear-gradient(
       45deg,
       transparent,
       transparent 40px,
-      rgba(255,255,255,0.005) 40px,
-      rgba(255,255,255,0.005) 41px
+      rgba(255, 255, 255, 0.005) 40px,
+      rgba(255, 255, 255, 0.005) 41px
     );
   min-height: 100vh;
 }
 
-/* If you have a layout wrapper, give it this class */
 .page-bg {
   background: transparent;
   position: relative;

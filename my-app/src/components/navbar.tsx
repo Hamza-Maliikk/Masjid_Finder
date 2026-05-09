@@ -18,12 +18,17 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b-[2px] border-[#c9a84c] bg-[#0d3a27] text-white shadow-lg">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <header 
+      className="sticky top-0 z-50 w-full border-b-[2px] border-[#c9a84c] text-white shadow-[0_4px_20px_rgba(0,0,0,0.4)]"
+      style={{
+        background: "linear-gradient(160deg, #0d3a27 0%, #1a6b4a 60%, #2d9e6e 100%)",
+      }}
+    >
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="flex h-[72px] items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 font-serif text-2xl font-bold tracking-wide text-[#c9a84c] transition-transform hover:scale-105">
+          <Link href="/" className="flex items-center gap-3 font-serif text-2xl font-bold tracking-wide text-[#c9a84c] transition-transform hover:scale-105" style={{ fontFamily: "'Noto Nastaliq Urdu', serif" }}>
             <span className="text-3xl drop-shadow-[0_2px_8px_rgba(201,168,76,0.4)]">🕌</span>
-            Jumma Namaz
+            <span className="mt-1" style={{ letterSpacing: '1px' }}>Masjid Finder</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -35,8 +40,8 @@ export default function Navbar() {
                 className={cn(
                   "relative text-[15px] font-semibold tracking-wide transition-all duration-300 hover:text-[#e8c97a]",
                   pathname === link.href 
-                    ? "text-[#c9a84c] after:absolute after:-bottom-[26px] after:left-0 after:h-[2px] after:w-full after:bg-[#c9a84c]" 
-                    : "text-white/80"
+                    ? "text-[#c9a84c] after:absolute after:-bottom-[26px] after:left-0 after:h-[2px] after:w-full after:bg-[#c9a84c] after:shadow-[0_0_8px_#c9a84c]" 
+                    : "text-white/90"
                 )}
               >
                 {link.label}
@@ -58,11 +63,14 @@ export default function Navbar() {
       {/* Mobile Navigation Menu */}
       <div 
         className={cn(
-          "overflow-hidden transition-all duration-300 ease-in-out md:hidden",
-          isOpen ? "max-h-64 border-t border-[#c9a84c]/20 bg-[#1a6b4a]" : "max-h-0 bg-[#0d3a27]"
+          "overflow-hidden transition-all duration-300 ease-in-out md:hidden border-t border-[#c9a84c]/30",
+          isOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0 border-transparent"
         )}
+        style={{
+          background: "linear-gradient(160deg, #0d3a27 0%, #1a6b4a 100%)",
+        }}
       >
-        <nav className="flex flex-col space-y-1 px-4 py-4">
+        <nav className="flex flex-col space-y-1 px-4 py-4 relative z-10">
           {links.map((link) => (
             <Link
               key={link.href}
@@ -71,7 +79,7 @@ export default function Navbar() {
               className={cn(
                 "rounded-xl px-4 py-3 text-base font-semibold transition-all duration-200",
                 pathname === link.href 
-                  ? "bg-[#c9a84c]/15 text-[#c9a84c] shadow-[0_0_12px_rgba(201,168,76,0.1)]" 
+                  ? "bg-[#c9a84c]/20 text-[#c9a84c] shadow-[0_0_12px_rgba(201,168,76,0.15)] border border-[#c9a84c]/30" 
                   : "text-white/90 hover:bg-white/10 hover:text-[#e8c97a]"
               )}
             >

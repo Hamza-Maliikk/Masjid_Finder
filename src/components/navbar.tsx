@@ -26,6 +26,7 @@ export default function Navbar() {
           right: 0;
           z-index: 1000;
           padding: 14px 24px;
+          background: transparent;
         }
 
         .navbar-pill {

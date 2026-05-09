@@ -123,8 +123,26 @@
   }
   body {
     @apply bg-background text-foreground;
+    background-color: #060d1a;
+  background-image:
+    radial-gradient(ellipse 60% 50% at 15% 10%, rgba(14, 158, 138, 0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 60% at 20% 90%, rgba(14, 158, 138, 0.10) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 50% at 85% 35%, rgba(201, 168, 76, 0.12) 0%, transparent 70%),
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 40px,
+      rgba(255, 255, 255, 0.005) 40px,
+      rgba(255, 255, 255, 0.005) 41px
+    );
+  min-height: 100vh;
   }
   html {
     @apply font-sans;
+    background: #060d1a;
   }
+  .page-bg {
+  background: transparent;
+  position: relative;
+}
 }
