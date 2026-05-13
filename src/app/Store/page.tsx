@@ -153,7 +153,7 @@ export default function StorePage() {
             position: 'fixed', inset: 0,
             background: 'rgba(4,9,20,0.72)',
             backdropFilter: 'blur(4px)',
-            zIndex: 100,
+            zIndex: 1100,
             animation: 'fadeIn 0.22s ease',
           }}
         />
@@ -167,7 +167,7 @@ export default function StorePage() {
           width: 'min(420px, 100vw)',
           background: 'linear-gradient(160deg, #0a1628 0%, #07111f 100%)',
           borderLeft: '1px solid rgba(14,158,138,0.22)',
-          zIndex: 101,
+          zIndex: 1101,
           display: 'flex',
           flexDirection: 'column',
           transform: cartOpen ? 'translateX(0)' : 'translateX(100%)',
