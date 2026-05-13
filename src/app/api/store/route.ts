@@ -1,26 +1,26 @@
 import connectDB from "@/lib/mongoose"
 import Store from "@/models/Store"
 import { NextResponse } from "next/server"
-// import redis from "@/lib/redis"
+import redis from "@/lib/redis"
 
 export async function GET() {
   try {
-    // const cached = await redis.get("duas")
+    const cached = await redis.get("stores")
 
-    // if (cached) {
-    //   console.log("⚡ Come from reddis")
-    //   return NextResponse.json({
-    //     success: true,
-    //     data: JSON.parse(cached),
-    //     source: "redis"       
-    //   })
-    // }
+    if (cached) {
+      console.log("⚡ Come from reddis")
+      return NextResponse.json({
+        success: true,
+        data: JSON.parse(cached),
+        source: "redis"       
+      })
+    }
 
     await connectDB()
     const stores = await Store.find({})
     const data = JSON.parse(JSON.stringify(stores))
 
-    // await redis.set("duas", JSON.stringify(data), "EX", 360)
+    await redis.set("stores", JSON.stringify(data), "EX", 360)
     console.log("Data from ATLAS — Save in reddis")
 
     return NextResponse.json({
