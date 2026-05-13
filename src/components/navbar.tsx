@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
+import { useState } from "react"
 
 const links = [
   { href: "/", label: "Home" },
@@ -13,6 +14,7 @@ const links = [
 
 export default function Navbar() {
   const pathname = usePathname()
+  const [menuOpen, setMenuOpen] = useState(false)
 
   return (
     <>
@@ -26,13 +28,13 @@ export default function Navbar() {
           right: 0;
           z-index: 1000;
           padding: 14px 24px;
-          background: transparent;
+          /* NO background here — sirf padding hai */
         }
 
         .navbar-pill {
           max-width: 860px;
           margin: 0 auto;
-          background: rgba(255, 255, 255, 0.04);
+          background: rgba(255, 255, 255, 0.06);
           backdrop-filter: blur(16px);
           -webkit-backdrop-filter: blur(16px);
           border: 1px solid rgba(255, 255, 255, 0.08);
@@ -42,12 +44,13 @@ export default function Navbar() {
           align-items: center;
           justify-content: space-between;
           position: relative;
-          overflow: hidden;
+          /* overflow: hidden HATA DIYA — yahi blur leak ka asli masla tha */
           box-shadow: 0 4px 24px rgba(0,0,0,0.2), 0 1px 0 rgba(255,255,255,0.05) inset;
         }
 
-        .navbar-pill::before {
-          content: '';
+        /* Gold shimmer line — pseudo element se kaam nahi karega bina overflow:hidden ke,
+           isliye inline div use karein ya hata dein */
+        .navbar-shine {
           position: absolute;
           top: 0; left: 10%; right: 10%;
           height: 1px;
@@ -58,6 +61,8 @@ export default function Navbar() {
             rgba(201, 168, 76, 0.3) 70%,
             transparent
           );
+          border-radius: 60px;
+          pointer-events: none;
         }
 
         .brand-area {
@@ -124,13 +129,92 @@ export default function Navbar() {
           box-shadow: 0 3px 12px rgba(14, 158, 138, 0.3);
         }
 
+        /* Hamburger */
+        .hamburger {
+          display: none;
+          flex-direction: column;
+          gap: 5px;
+          cursor: pointer;
+          background: transparent;
+          border: none;
+          padding: 4px;
+        }
+
+        .hamburger span {
+          display: block;
+          width: 22px;
+          height: 2px;
+          background: rgba(255, 255, 255, 0.75);
+          border-radius: 2px;
+          transition: all 0.3s ease;
+        }
+
+        .hamburger.open span:nth-child(1) {
+          transform: translateY(7px) rotate(45deg);
+        }
+        .hamburger.open span:nth-child(2) {
+          opacity: 0;
+        }
+        .hamburger.open span:nth-child(3) {
+          transform: translateY(-7px) rotate(-45deg);
+        }
+
+        /* Mobile dropdown */
+        .mobile-menu {
+          display: none;
+          flex-direction: column;
+          gap: 4px;
+          padding: 8px 24px 4px;
+          max-width: 860px;
+          margin: 0 auto;
+        }
+
+        .mobile-menu .nav-link {
+          font-size: 0.7rem;
+          padding: 10px 20px;
+          border-radius: 12px;
+          color: rgba(255, 255, 255, 0.75);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+        }
+
+        .mobile-menu.open {
+          display: flex;
+        }
+
         .navbar-spacer {
           height: 80px;
+        }
+
+        @media (max-width: 600px) {
+          .navbar-wrapper {
+            padding: 10px 14px;
+          }
+
+          .navbar-pill {
+            padding: 8px 18px;
+          }
+
+          .nav-links {
+            display: none;
+          }
+
+          .hamburger {
+            display: flex;
+          }
+
+          .brand-text {
+            font-size: 0.78rem;
+            letter-spacing: 0.1em;
+          }
         }
       `}</style>
 
       <div className="navbar-wrapper">
         <div className="navbar-pill">
+          {/* Gold shimmer — ab div hai pseudo element nahi, overflow:hidden ki zaroorat nahi */}
+          <div className="navbar-shine" />
+
           <Link href="/" className="brand-area">
             <span className="brand-icon">🕌</span>
             <div className="brand-divider" />
@@ -148,6 +232,29 @@ export default function Navbar() {
               </Link>
             ))}
           </nav>
+
+          <button
+            className={cn("hamburger", menuOpen && "open")}
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle menu"
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+        </div>
+
+        <div className={cn("mobile-menu", menuOpen && "open")}>
+          {links.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={cn("nav-link", pathname === link.href && "active")}
+              onClick={() => setMenuOpen(false)}
+            >
+              {link.label}
+            </Link>
+          ))}
         </div>
       </div>
 

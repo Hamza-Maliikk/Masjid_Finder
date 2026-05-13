@@ -10,7 +10,6 @@ export default function Dua() {
   const [error, setError] = useState(false)
   const [hoveredId, setHoveredId] = useState<string | null>(null)
 
-
   useEffect(() => {
     const link = document.createElement("link")
     link.href =
@@ -42,22 +41,24 @@ export default function Dua() {
     <div
       style={{
         minHeight: "100vh",
-        background: "linear-gradient(160deg, #0a1628 0%, #0d2137 40%, #0f2d40 70%, #112235 100%)",
+        background: "#060d1a",
         fontFamily: "'Tajawal', sans-serif",
-        color: "#e0f0ff",
+        color: "rgba(255,255,255,0.92)",
         position: "relative",
         overflow: "hidden",
       }}
     >
-      {/* Background glow effects */}
+      {/* Background orbs — same as home page */}
       <div
         style={{
           position: "fixed",
-          top: "-80px",
-          right: "-80px",
-          width: "350px",
-          height: "350px",
-          background: "radial-gradient(circle, rgba(0,168,120,0.1) 0%, transparent 70%)",
+          top: "-100px",
+          left: "-150px",
+          width: "500px",
+          height: "500px",
+          borderRadius: "50%",
+          filter: "blur(80px)",
+          background: "radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%)",
           pointerEvents: "none",
           zIndex: 0,
         }}
@@ -65,11 +66,27 @@ export default function Dua() {
       <div
         style={{
           position: "fixed",
-          bottom: 0,
-          left: "-60px",
-          width: "280px",
-          height: "280px",
-          background: "radial-gradient(circle, rgba(0,140,100,0.07) 0%, transparent 70%)",
+          top: "30%",
+          right: "-100px",
+          width: "400px",
+          height: "400px",
+          borderRadius: "50%",
+          filter: "blur(80px)",
+          background: "radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%)",
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
+      <div
+        style={{
+          position: "fixed",
+          bottom: "10%",
+          left: "20%",
+          width: "350px",
+          height: "350px",
+          borderRadius: "50%",
+          filter: "blur(80px)",
+          background: "radial-gradient(circle, rgba(14,158,138,0.1) 0%, transparent 70%)",
           pointerEvents: "none",
           zIndex: 0,
         }}
@@ -85,7 +102,7 @@ export default function Dua() {
             color: "#c9a84c",
             marginBottom: "0.5rem",
             direction: "rtl",
-            textShadow: "0 0 20px rgba(201,168,76,0.25)",
+            textShadow: "0 0 20px rgba(201,168,76,0.35)",
           }}
         >
           بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم
@@ -98,9 +115,9 @@ export default function Dua() {
               display: "inline-flex",
               alignItems: "center",
               gap: "6px",
-              background: "rgba(0,180,120,0.15)",
-              border: "1px solid rgba(0,180,120,0.4)",
-              color: "#4cd8a0",
+              background: "rgba(14,158,138,0.15)",
+              border: "1px solid rgba(14,158,138,0.3)",
+              color: "#0e9e8a",
               fontSize: "11px",
               letterSpacing: "2px",
               textTransform: "uppercase",
@@ -113,7 +130,7 @@ export default function Dua() {
                 width: "6px",
                 height: "6px",
                 borderRadius: "50%",
-                background: "#4cd8a0",
+                background: "#0e9e8a",
                 display: "inline-block",
               }}
             />
@@ -121,10 +138,10 @@ export default function Dua() {
           </span>
         </div>
 
-        <h1 style={{ fontSize: "2rem", fontWeight: 700, color: "#e8f4ff", margin: "0 0 0.3rem", letterSpacing: "-0.5px" }}>
+        <h1 style={{ fontSize: "2rem", fontWeight: 700, color: "rgba(255,255,255,0.92)", margin: "0 0 0.3rem", letterSpacing: "-0.5px" }}>
           Islamic Duas
         </h1>
-        <p style={{ color: "#7ab8d4", fontWeight: 300, margin: 0, fontSize: "0.9rem" }}>
+        <p style={{ color: "rgba(255,255,255,0.45)", fontWeight: 300, margin: 0, fontSize: "0.9rem" }}>
           Supplications for every moment of your day
         </p>
 
@@ -135,12 +152,12 @@ export default function Dua() {
               display: "inline-flex",
               alignItems: "center",
               gap: "6px",
-              background: "rgba(0,180,120,0.1)",
-              border: "1px solid rgba(0,180,120,0.25)",
+              background: "rgba(14,158,138,0.1)",
+              border: "1px solid rgba(14,158,138,0.25)",
               padding: "4px 14px",
               borderRadius: "20px",
               fontSize: "12px",
-              color: loading ? "#7ab8d4" : error ? "#f87171" : "#4cd8a0",
+              color: loading ? "rgba(255,255,255,0.45)" : error ? "#f87171" : "#0e9e8a",
             }}
           >
             <span
@@ -148,7 +165,7 @@ export default function Dua() {
                 width: "6px",
                 height: "6px",
                 borderRadius: "50%",
-                background: loading ? "#7ab8d4" : error ? "#f87171" : "#4cd8a0",
+                background: loading ? "rgba(255,255,255,0.45)" : error ? "#f87171" : "#0e9e8a",
                 display: "inline-block",
               }}
             />
@@ -170,7 +187,7 @@ export default function Dua() {
               left: "16px",
               top: "50%",
               transform: "translateY(-50%)",
-              color: "#00b47c",
+              color: "#0e9e8a",
               fontSize: "16px",
             }}
           >
@@ -185,21 +202,22 @@ export default function Dua() {
               width: "100%",
               padding: "12px 18px 12px 44px",
               borderRadius: "40px",
-              border: "1px solid rgba(0,180,120,0.3)",
-              background: "rgba(10,22,40,0.75)",
-              color: "#e0f0ff",
+              border: "1px solid rgba(255,255,255,0.08)",
+              background: "rgba(255,255,255,0.04)",
+              color: "rgba(255,255,255,0.92)",
               fontSize: "14px",
               fontFamily: "'Tajawal', sans-serif",
               outline: "none",
               boxSizing: "border-box",
               transition: "border-color 0.2s",
+              backdropFilter: "blur(16px)",
             }}
-            onFocus={(e) => (e.currentTarget.style.borderColor = "rgba(0,180,120,0.6)")}
-            onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(0,180,120,0.3)")}
+            onFocus={(e) => (e.currentTarget.style.borderColor = "rgba(14,158,138,0.4)")}
+            onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)")}
           />
         </div>
         {search && (
-          <p style={{ textAlign: "center", fontSize: "12px", color: "#4cd8a0", marginTop: "0.4rem" }}>
+          <p style={{ textAlign: "center", fontSize: "12px", color: "#0e9e8a", marginTop: "0.4rem" }}>
             {filtered.length} result{filtered.length !== 1 ? "s" : ""} mile
           </p>
         )}
@@ -219,22 +237,22 @@ export default function Dua() {
         }}
       >
         {loading ? (
-          /* Skeleton loaders */
           [...Array(6)].map((_, i) => (
             <div
               key={i}
               style={{
-                background: "rgba(13,33,55,0.6)",
-                border: "1px solid rgba(0,160,110,0.1)",
-                borderRadius: "14px",
+                background: "rgba(255,255,255,0.04)",
+                border: "1px solid rgba(255,255,255,0.08)",
+                borderRadius: "18px",
                 padding: "1.25rem",
                 animation: "pulse 1.5s infinite",
+                backdropFilter: "blur(12px)",
               }}
             >
-              <div style={{ height: "8px", background: "rgba(0,160,110,0.15)", borderRadius: "4px", width: "30%", marginBottom: "12px" }} />
-              <div style={{ height: "12px", background: "rgba(0,160,110,0.15)", borderRadius: "4px", width: "65%", marginBottom: "16px" }} />
-              <div style={{ height: "36px", background: "rgba(0,160,110,0.08)", borderRadius: "4px", marginBottom: "12px" }} />
-              <div style={{ height: "8px", background: "rgba(0,160,110,0.12)", borderRadius: "4px", width: "75%" }} />
+              <div style={{ height: "8px", background: "rgba(14,158,138,0.15)", borderRadius: "4px", width: "30%", marginBottom: "12px" }} />
+              <div style={{ height: "12px", background: "rgba(14,158,138,0.15)", borderRadius: "4px", width: "65%", marginBottom: "16px" }} />
+              <div style={{ height: "36px", background: "rgba(14,158,138,0.08)", borderRadius: "4px", marginBottom: "12px" }} />
+              <div style={{ height: "8px", background: "rgba(14,158,138,0.12)", borderRadius: "4px", width: "75%" }} />
             </div>
           ))
         ) : error ? (
@@ -243,7 +261,7 @@ export default function Dua() {
             <p>Database se data nahi aaya. Server check karein.</p>
           </div>
         ) : filtered.length === 0 ? (
-          <div style={{ gridColumn: "1/-1", textAlign: "center", color: "#4cd8a0", padding: "3rem" }}>
+          <div style={{ gridColumn: "1/-1", textAlign: "center", color: "#0e9e8a", padding: "3rem" }}>
             <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🔍</div>
             <p>&quot;{search}&quot; ke liye koi dua nahi mili</p>
           </div>
@@ -255,15 +273,17 @@ export default function Dua() {
               <div
                 key={id}
                 style={{
-                  background: isHovered ? "rgba(13,33,55,0.92)" : "rgba(13,33,55,0.75)",
-                  border: `1px solid ${isHovered ? "rgba(0,180,120,0.5)" : "rgba(0,160,110,0.2)"}`,
-                  borderRadius: "14px",
+                  background: isHovered ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.04)",
+                  border: `1px solid ${isHovered ? "rgba(14,158,138,0.3)" : "rgba(255,255,255,0.08)"}`,
+                  borderRadius: "18px",
                   padding: "1.25rem",
-                  transition: "transform 0.2s, border-color 0.2s, background 0.2s",
+                  transition: "transform 0.25s ease, border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease",
                   transform: isHovered ? "translateY(-3px)" : "none",
+                  boxShadow: isHovered ? "0 8px 32px rgba(14,158,138,0.12), 0 2px 0 rgba(255,255,255,0.04) inset" : "0 2px 16px rgba(0,0,0,0.15)",
                   cursor: "default",
                   position: "relative",
                   overflow: "hidden",
+                  backdropFilter: "blur(12px)",
                 }}
                 onMouseEnter={() => setHoveredId(id)}
                 onMouseLeave={() => setHoveredId(null)}
@@ -276,7 +296,7 @@ export default function Dua() {
                     left: 0,
                     right: 0,
                     height: "2px",
-                    background: "linear-gradient(90deg, transparent, rgba(0,180,120,0.6), transparent)",
+                    background: "linear-gradient(90deg, transparent, rgba(14,158,138,0.6), transparent)",
                     opacity: isHovered ? 1 : 0,
                     transition: "opacity 0.2s",
                   }}
@@ -287,20 +307,21 @@ export default function Dua() {
                   style={{
                     fontSize: "10px",
                     letterSpacing: "2px",
-                    color: "#00b47c",
+                    color: "#0e9e8a",
                     fontWeight: 700,
                     marginBottom: "0.4rem",
                     display: "flex",
                     alignItems: "center",
                     gap: "6px",
+                    textTransform: "uppercase",
                   }}
                 >
                   DUA {String(i + 1).padStart(2, "0")}
-                  <div style={{ flex: 1, height: "1px", background: "rgba(0,160,110,0.2)" }} />
+                  <div style={{ flex: 1, height: "1px", background: "rgba(255,255,255,0.08)" }} />
                 </div>
 
                 {/* Title */}
-                <div style={{ fontSize: "0.95rem", fontWeight: 500, color: "#a8d8f0", marginBottom: "0.9rem" }}>
+                <div style={{ fontSize: "0.95rem", fontWeight: 500, color: "rgba(255,255,255,0.92)", marginBottom: "0.9rem" }}>
                   {dua.title}
                 </div>
 
@@ -309,14 +330,14 @@ export default function Dua() {
                   style={{
                     fontFamily: "'Amiri', serif",
                     fontSize: "1.5rem",
-                    color: "#f0e8d0",
+                    color: "#c9a84c",
                     textAlign: "right",
                     direction: "rtl",
-                    borderRight: "3px solid #00b47c",
+                    borderRight: "3px solid #0e9e8a",
                     paddingRight: "10px",
                     marginBottom: "0.8rem",
                     lineHeight: 2,
-                    textShadow: "0 0 12px rgba(201,168,76,0.15)",
+                    textShadow: "0 0 12px rgba(201,168,76,0.25)",
                   }}
                 >
                   {dua.arabic}
@@ -326,7 +347,7 @@ export default function Dua() {
                 <div
                   style={{
                     fontSize: "0.78rem",
-                    color: "#6ab4cc",
+                    color: "rgba(255,255,255,0.45)",
                     fontStyle: "italic",
                     marginBottom: "0.6rem",
                     lineHeight: 1.6,
@@ -336,10 +357,10 @@ export default function Dua() {
                 </div>
 
                 {/* Divider */}
-                <div style={{ height: "1px", background: "rgba(0,160,110,0.15)", margin: "0.6rem 0" }} />
+                <div style={{ height: "1px", background: "rgba(255,255,255,0.08)", margin: "0.6rem 0" }} />
 
                 {/* Translation */}
-                <div style={{ fontSize: "0.82rem", color: "#9ab0be", lineHeight: 1.7 }}>
+                <div style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.45)", lineHeight: 1.7 }}>
                   {dua.translation}
                 </div>
               </div>
@@ -354,7 +375,7 @@ export default function Dua() {
           50% { opacity: 0.5 }
         }
         input::placeholder {
-          color: rgba(122, 184, 212, 0.45);
+          color: rgba(255, 255, 255, 0.25);
         }
       `}</style>
     </div>
