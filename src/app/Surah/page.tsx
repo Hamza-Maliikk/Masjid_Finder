@@ -9,7 +9,6 @@ export default function SurahKahfPage() {
   const [loading, setLoading]   = useState(true)
   const [error, setError]       = useState(false)
 
-  // ── Fonts ──────────────────────────────────────────────────────────────
   useEffect(() => {
     const link = document.createElement("link")
     link.href =
@@ -18,7 +17,6 @@ export default function SurahKahfPage() {
     document.head.appendChild(link)
   }, [])
 
-  // ── Fetch ──────────────────────────────────────────────────────────────
   useEffect(() => {
     fetch("/api/surah", {
       headers: { "ngrok-skip-browser-warning": "true" },
@@ -38,10 +36,10 @@ export default function SurahKahfPage() {
 
   return (
     <div style={s.wrapper}>
-      {/* Background glow blobs */}
-      <div style={s.blob1} />
-      <div style={s.blob2} />
-      <div style={s.blob3} />
+      {/* Background orbs — same as home page */}
+      <div style={s.orb1} />
+      <div style={s.orb2} />
+      <div style={s.orb3} />
 
       <div style={s.pageWrap}>
 
@@ -62,12 +60,12 @@ export default function SurahKahfPage() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "6px",
-                background: "rgba(0,180,120,0.1)",
-                border: "1px solid rgba(0,180,120,0.25)",
+                background: "rgba(14,158,138,0.1)",
+                border: "1px solid rgba(14,158,138,0.25)",
                 padding: "4px 14px",
                 borderRadius: "20px",
                 fontSize: "12px",
-                color: loading ? "#7ab8d4" : error ? "#f87171" : "#4cd8a0",
+                color: loading ? "rgba(255,255,255,0.45)" : error ? "#f87171" : "#0e9e8a",
               }}
             >
               <span
@@ -75,7 +73,7 @@ export default function SurahKahfPage() {
                   width: "6px",
                   height: "6px",
                   borderRadius: "50%",
-                  background: loading ? "#7ab8d4" : error ? "#f87171" : "#4cd8a0",
+                  background: loading ? "rgba(255,255,255,0.45)" : error ? "#f87171" : "#0e9e8a",
                   display: "inline-block",
                 }}
               />
@@ -130,8 +128,8 @@ export default function SurahKahfPage() {
           0%,100% { opacity: 1; }
           50%      { opacity: 0.4; }
         }
-        input::placeholder { color: rgba(0,180,120,0.35); }
-        input:focus { border-color: rgba(201,168,76,0.5) !important; outline: none; }
+        input::placeholder { color: rgba(255,255,255,0.25); }
+        input:focus { border-color: rgba(14,158,138,0.4) !important; outline: none; }
       `}</style>
     </div>
   )
@@ -157,7 +155,7 @@ function AyahCard({ ayah, index }: { ayah: ISurah; index: number }) {
           position: "absolute",
           top: 0, left: 0, right: 0,
           height: "2px",
-          background: "linear-gradient(90deg, transparent, rgba(0,180,120,0.6), transparent)",
+          background: "linear-gradient(90deg, transparent, rgba(14,158,138,0.6), transparent)",
           opacity: hovered ? 1 : 0,
           transition: "opacity 0.2s",
         }}
@@ -201,11 +199,11 @@ function SkeletonCard({ delay }: { delay: number }) {
 function Separator({ label }: { label: string }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "1rem 0 1.5rem" }}>
-      <div style={{ flex: 1, height: 1, background: "rgba(0,180,120,0.15)" }} />
-      <span style={{ fontSize: 10, color: "rgba(0,180,120,0.45)", letterSpacing: 2, textTransform: "uppercase" as const }}>
+      <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.08)" }} />
+      <span style={{ fontSize: 10, color: "rgba(14,158,138,0.6)", letterSpacing: 2, textTransform: "uppercase" as const }}>
         {label}
       </span>
-      <div style={{ flex: 1, height: 1, background: "rgba(0,180,120,0.15)" }} />
+      <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.08)" }} />
     </div>
   )
 }
@@ -214,30 +212,33 @@ function Separator({ label }: { label: string }) {
 const s: Record<string, React.CSSProperties> = {
   wrapper: {
     minHeight: "100vh",
-    background: "linear-gradient(160deg, #0a1628 0%, #0d2137 40%, #0f2d40 70%, #112235 100%)",
+    background: "#060d1a",
     fontFamily: "'Tajawal', sans-serif",
-    color: "#e0f0ff",
+    color: "rgba(255,255,255,0.92)",
     position: "relative",
     overflowX: "hidden",
   },
 
-  // Background blobs
-  blob1: {
-    position: "fixed", top: "5%", right: "5%",
-    width: 350, height: 350,
-    background: "radial-gradient(circle, rgba(0,168,120,0.1) 0%, transparent 70%)",
+  // Background orbs — matching home page
+  orb1: {
+    position: "fixed", top: "-100px", left: "-150px",
+    width: 500, height: 500,
+    borderRadius: "50%", filter: "blur(80px)",
+    background: "radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%)",
     pointerEvents: "none", zIndex: 0,
   },
-  blob2: {
-    position: "fixed", bottom: "10%", left: "5%",
-    width: 300, height: 300,
-    background: "radial-gradient(circle, rgba(0,140,100,0.07) 0%, transparent 70%)",
-    pointerEvents: "none", zIndex: 0,
-  },
-  blob3: {
-    position: "fixed", top: "40%", left: "40%",
+  orb2: {
+    position: "fixed", top: "30%", right: "-100px",
     width: 400, height: 400,
-    background: "radial-gradient(circle, rgba(201,168,76,0.04) 0%, transparent 70%)",
+    borderRadius: "50%", filter: "blur(80px)",
+    background: "radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%)",
+    pointerEvents: "none", zIndex: 0,
+  },
+  orb3: {
+    position: "fixed", bottom: "10%", left: "20%",
+    width: 350, height: 350,
+    borderRadius: "50%", filter: "blur(80px)",
+    background: "radial-gradient(circle, rgba(14,158,138,0.1) 0%, transparent 70%)",
     pointerEvents: "none", zIndex: 0,
   },
 
@@ -268,16 +269,16 @@ const s: Record<string, React.CSSProperties> = {
   },
   surahArabic: {
     fontFamily: "'Amiri', serif", fontSize: "3rem",
-    color: "#e8f4ff", marginBottom: "0.5rem",
+    color: "rgba(255,255,255,0.92)", marginBottom: "0.5rem",
     textShadow: "0 2px 20px rgba(201,168,76,0.15)",
     direction: "rtl",
   },
   surahEnglish: {
     fontSize: "1.1rem", fontWeight: 300,
-    color: "#4cd8a0", letterSpacing: 3, marginBottom: "0.4rem",
+    color: "#0e9e8a", letterSpacing: 3, marginBottom: "0.4rem",
   },
   surahMeta: {
-    fontSize: 12, color: "rgba(74,200,160,0.5)",
+    fontSize: 12, color: "rgba(14,158,138,0.5)",
     letterSpacing: 1, marginBottom: "1.2rem",
   },
 
@@ -288,6 +289,7 @@ const s: Record<string, React.CSSProperties> = {
     background: "rgba(201,168,76,0.06)",
     border: "1px solid rgba(201,168,76,0.2)",
     borderRadius: 20, position: "relative",
+    backdropFilter: "blur(16px)",
   },
   bismillahTopLine: {
     position: "absolute", top: 0, left: 0, right: 0, height: 1,
@@ -307,49 +309,45 @@ const s: Record<string, React.CSSProperties> = {
   // Ayahs
   ayahsContainer: { display: "flex", flexDirection: "column", gap: "1rem" },
   ayahCard: {
-    background: "rgba(13,33,55,0.75)",
-    border: "1px solid rgba(0,160,110,0.2)",
-    borderRadius: 16, overflow: "hidden",
+    background: "rgba(255,255,255,0.04)",
+    border: "1px solid rgba(255,255,255,0.08)",
+    borderRadius: 18, overflow: "hidden",
     animation: "fadeSlide 0.5s ease both",
-    transition: "border-color 0.3s, background 0.3s, transform 0.22s",
+    transition: "border-color 0.25s, background 0.25s, transform 0.22s, box-shadow 0.25s",
     position: "relative",
+    backdropFilter: "blur(12px)",
+    boxShadow: "0 2px 16px rgba(0,0,0,0.15)",
   },
   ayahCardHover: {
-    borderColor: "rgba(0,180,120,0.5)",
-    background: "rgba(13,33,55,0.92)",
+    borderColor: "rgba(14,158,138,0.3)",
+    background: "rgba(255,255,255,0.06)",
     transform: "translateY(-2px)",
+    boxShadow: "0 8px 32px rgba(14,158,138,0.12), 0 2px 0 rgba(255,255,255,0.04) inset",
   },
   ayahTop: {
     padding: "1.5rem 1.5rem 1rem",
-    borderBottom: "1px solid rgba(0,160,110,0.1)",
+    borderBottom: "1px solid rgba(255,255,255,0.08)",
     direction: "rtl",
   },
   ayahArabic: {
     fontFamily: "'Amiri Quran', 'Amiri', serif",
     fontSize: "1.75rem", lineHeight: 2.2,
-    color: "#f0e8d0", textAlign: "right",
-    textShadow: "0 0 12px rgba(201,168,76,0.12)",
-  },
-  ayahNumInline: {
-    display: "inline-flex", alignItems: "center", justifyContent: "center",
-    width: 28, height: 28,
-    background: "rgba(201,168,76,0.12)", border: "1px solid rgba(201,168,76,0.3)",
-    borderRadius: "50%", fontFamily: "'Amiri', serif", fontSize: "0.85rem",
-    color: "#c9a84c", marginRight: 6, verticalAlign: "middle", direction: "ltr",
+    color: "#c9a84c", textAlign: "right",
+    textShadow: "0 0 12px rgba(201,168,76,0.2)",
   },
   ayahBottom: { padding: "1rem 1.5rem 1.25rem", direction: "ltr" },
   ayahTranslit: {
     fontFamily: "'Amiri Quran', 'Amiri', serif",
-    fontSize: "20px", color: "#e0f0ff",
+    fontSize: "20px", color: "rgba(255,255,255,0.92)",
     fontStyle: "italic", lineHeight: 2,
     letterSpacing: "1px", marginBottom: "0.6rem", opacity: 0.88,
   },
   ayahDivider: {
     height: 1,
-    background: "rgba(0,160,110,0.15)",
+    background: "rgba(255,255,255,0.08)",
     margin: "0.6rem 0",
   },
-  ayahTranslation: { fontSize: "0.88rem", color: "#9ab0be", lineHeight: 1.8 },
+  ayahTranslation: { fontSize: "0.88rem", color: "rgba(255,255,255,0.45)", lineHeight: 1.8 },
   ayahFooter: { display: "flex", alignItems: "center", gap: 8, marginTop: "0.75rem" },
   ayahBadge: {
     fontSize: 10, color: "#c9a84c",
@@ -359,13 +357,13 @@ const s: Record<string, React.CSSProperties> = {
 
   // Skeleton
   skel: {
-    background: "rgba(0,160,110,0.1)",
+    background: "rgba(14,158,138,0.1)",
     borderRadius: 6, animation: "pulse 1.5s infinite",
   },
 
   // Error
   errorBox: {
-    textAlign: "center", color: "#7ab8d4",
+    textAlign: "center", color: "rgba(255,255,255,0.45)",
     padding: "3rem", gridColumn: "1/-1",
   },
 }
