@@ -1,7 +1,7 @@
 import connectDB from "../lib/mongoose";
 import Store from "../models/Store";
 
-const products = [
+const products = [  
   // ─── Prayer Mats ───────────────────────────────────────────────
   {
     title: "Premium Velvet Prayer Mat – Masjid Green",
@@ -9,7 +9,7 @@ const products = [
     description:
       "Thick velvet prayer mat with a soft foam inner layer for comfortable prostration. Features a Masjid-al-Haram design with intricate embroidered borders. Non-slip rubber backing keeps it firmly in place on any surface.",
     imageUrl:
-      "https://images.unsplash.com/photo-1595113316349-944115180f68?auto=format&fit=crop&q=80&w=600",
+      "https://plus.unsplash.com/premium_photo-1677966720301-478fcb3ee2d3?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     price: 45,
   },
   {
@@ -18,7 +18,7 @@ const products = [
     description:
       "Ultra-thin, foldable prayer mat designed for travellers. Weighs only 180g and rolls into a compact pouch. Waterproof polyester fabric with a printed qibla compass in the corner.",
     imageUrl:
-      "https://images.unsplash.com/photo-1607462109225-6b64ae2dd3cb?auto=format&fit=crop&q=80&w=600",
+      "https://images.unsplash.com/photo-1727024418120-77e4e204d09f?q=80&w=699&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     price: 18,
   },
   {
@@ -27,7 +27,7 @@ const products = [
     description:
       "Authentic hand-woven Turkish rug made from 100% pure wool. Traditional Ottoman geometric pattern in navy and gold. Each piece is unique — slight variations in pattern are a mark of authenticity.",
     imageUrl:
-      "https://images.unsplash.com/photo-1543722530-d2c3201371e7?auto=format&fit=crop&q=80&w=600",
+      "https://images.unsplash.com/photo-1591624298055-3cfb0aa676c5?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     price: 95,
   },
 
@@ -38,7 +38,7 @@ const products = [
     description:
       "A beautifully bound Quran with gold-embossed Arabic calligraphy on the cover. 16-line Uthmani script on cream-tinted paper, easy on the eyes. Includes a ribbon bookmark and a velvet gift box.",
     imageUrl:
-      "https://images.unsplash.com/photo-1609599006353-e629aaab31ce?auto=format&fit=crop&q=80&w=600",
+      "https://plus.unsplash.com/premium_photo-1679580498563-9c9af722dca6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     price: 65,
   },
   {
@@ -47,7 +47,7 @@ const products = [
     description:
       "Full Arabic text with a side-by-side Urdu Mufradat translation by Maulana Fateh Muhammad Jalandhari. Printed on high-quality white offset paper with colour-coded tajweed marks. Medium size, ideal for daily reading.",
     imageUrl:
-      "https://images.unsplash.com/photo-1585036156171-384164a8c675?auto=format&fit=crop&q=80&w=600",
+      "https://images.unsplash.com/photo-1589462135796-2b46e4bdd7fe?q=80&w=686&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     price: 40,
   },
   {
@@ -56,7 +56,7 @@ const products = [
     description:
       "Smart pen reader that reads aloud any verse you point to. Includes 5 different reciters, word-by-word translation in 12 languages, and Tajweed correction mode. Comes with a 16-line Quran and USB charging cable.",
     imageUrl:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600",
+      "https://www.al-hadaya.com/cdn/shop/files/Smart_Digital_Quran_Pen_Reader_with_Electronic_Holy_Quran_Tajweed_Book.jpg?v=1759987605&width=990",
     price: 120,
   },
 
@@ -67,7 +67,7 @@ const products = [
     description:
       "Hand-polished natural agate stone tasbeeh with 99 beads. Each bead is 10mm, providing a satisfying weight and texture for dhikr. Strung on durable silk thread with a tassel finish.",
     imageUrl:
-      "https://images.unsplash.com/photo-1608226462947-f7035548d88e?auto=format&fit=crop&q=80&w=600",
+      "https://5.imimg.com/data5/JM/LY/VH/SELLER-16076300/41hextohvpl-500x500.jpg",
     price: 25,
   },
   {
@@ -76,17 +76,8 @@ const products = [
     description:
       "Electronic thumb-press counter that tracks up to 9,999 counts with a single button reset. Compact, lightweight, and battery-powered. Perfect for istighfar, salawat, or any form of dhikr on the go.",
     imageUrl:
-      "https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&q=80&w=600",
+      "https://ibnezafar.com/wp-content/uploads/2022/02/Digitaltasbih1-768x768.jpg",
     price: 12,
-  },
-  {
-    title: "Sandalwood Tasbeeh – Aromatic 33 Beads",
-    category: "Tasbeeh",
-    description:
-      "Carved from pure Indian sandalwood, this 33-bead tasbeeh carries a gentle natural fragrance that intensifies with use. Smooth rounded beads with natural wood grain patterns. Comes in a small velvet pouch.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=600",
-    price: 30,
   },
 
   // ─── Attar ─────────────────────────────────────────────────────
