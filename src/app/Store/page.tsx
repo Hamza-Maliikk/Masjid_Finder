@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { ShoppingBag, Star, Plus, Search, X, Trash2, Minus, ShoppingCart } from 'lucide-react';
 import type { IStore } from '@/models/Store';
+import { useRouter } from 'next/navigation';
 
 const CATEGORIES = ['All', 'Prayer Mats', 'Quran', 'Tasbeeh', 'Attar', 'Caps'];
 
@@ -39,6 +40,8 @@ export default function StorePage() {
   const [loading, setLoading] = useState(true);
   const [addedId, setAddedId] = useState<string | null>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
+
+  const router = useRouter();
 
   useEffect(() => {
     setCart(getCartFromStorage());
@@ -275,6 +278,7 @@ export default function StorePage() {
               <span style={{ fontSize: '1.2rem', fontWeight: 700, color: 'rgba(255,255,255,0.92)' }}>${cartTotal.toFixed(2)}</span>
             </div>
             <button
+              onClick={() => { router.push('/Checkout'); setCartOpen(false); }}
               style={{ width: '100%', padding: '13px', borderRadius: 12, background: 'linear-gradient(135deg, #0e9e8a, #07b89f)', border: 'none', color: '#fff', fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', letterSpacing: 0.5, transition: 'all 0.2s', boxShadow: '0 4px 20px rgba(14,158,138,0.3)' }}
               onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 6px 24px rgba(14,158,138,0.4)'; }}
               onMouseLeave={(e) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 4px 20px rgba(14,158,138,0.3)'; }}
