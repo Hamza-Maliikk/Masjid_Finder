@@ -22,7 +22,7 @@ const MasjidSchema = new Schema<IMasjid>({
   lng:   { type: Number, required: true},
   parking: { type: Boolean, required: true },
   timings: {
-    juma:  { type: String, required: true }
+    juma:  { type: String }
   }
 }, { timestamps: true })
 
