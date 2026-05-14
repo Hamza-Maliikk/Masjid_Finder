@@ -87,7 +87,7 @@ const products = [
     description:
       "A rich, deep oud attar with notes of dark wood, amber, and a hint of rose musk. Alcohol-free, oil-based formula that lasts up to 8 hours on skin. Sourced from aged agarwood from Assam, India.",
     imageUrl:
-      "https://images.unsplash.com/photo-1615397323136-1216d2f3cdae?auto=format&fit=crop&q=80&w=600",
+      "https://cdn11.bigcommerce.com/s-lu1tw1pz/images/stencil/640w/products/480/1736/OUD_AL_LAIL_EDP__41735.1558975883.jpg?c=2",
     price: 35,
   },
   {
@@ -96,7 +96,7 @@ const products = [
     description:
       "A light, clean white musk attar inspired by the fragrance of Masjid an-Nabawi. Delicate floral undertones with a soft powdery dry-down. Alcohol-free and suitable for prayer. A beloved daily scent.",
     imageUrl:
-      "https://images.unsplash.com/photo-1541643600914-78b084683702?auto=format&fit=crop&q=80&w=600",
+      "https://aljannat.pk/wp-content/uploads/2024/03/WhatsApp-Image-2024-05-19-at-5.59.46-PM-3-scaled-1-1024x1024.jpeg",
     price: 22,
   },
   {
@@ -105,7 +105,7 @@ const products = [
     description:
       "Extracted from the prized Taif roses of Saudi Arabia, this attar is a classic in Islamic perfumery. A pure, lush rose scent with no synthetic additives. Presented in a hand-cut crystal bottle with a golden cap.",
     imageUrl:
-      "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=600",
+      "https://armaastore.com/cdn/shop/files/63E59267-ACA5-4C1F-A282-A9A3B69C0B57.jpg?v=1752906528&width=990",
     price: 55,
   },
 
@@ -116,7 +116,7 @@ const products = [
     description:
       "Classic Turkish topi made from soft cotton-linen blend. Features a structured crown with a clean crocheted border. One size fits most with a flexible inner band. Machine washable.",
     imageUrl:
-      "https://images.unsplash.com/photo-1592398453472-3c220f1885cc?auto=format&fit=crop&q=80&w=600",
+      "https://aladdinshoppers.com/cdn/shop/files/image_4eae6e7d-71d8-4bea-ac1b-8860787009ed_1024x1024.jpg?v=1734705701",
     price: 15,
   },
   {
@@ -125,18 +125,9 @@ const products = [
     description:
       "Hand-embroidered Kufi cap in traditional Pakistani style with white threadwork geometric patterns on a white cotton base. Lightweight, breathable, and perfect for salah or everyday wear.",
     imageUrl:
-      "https://images.unsplash.com/photo-1521369909029-2afed882baee?auto=format&fit=crop&q=80&w=600",
+      "https://i.pinimg.com/474x/6c/b0/f5/6cb0f54ed9f843c32290a9c890c369f4.jpg",
     price: 20,
-  },
-  {
-    title: "Knitted Woollen Topi – Winter",
-    category: "Caps",
-    description:
-      "Thick knitted topi made from premium merino wool blend. Keeps you warm during Fajr and Isha in cold winters while maintaining a clean Islamic look. Available in charcoal, navy, and ivory.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1576871337622-98d48d1cf531?auto=format&fit=crop&q=80&w=600",
-    price: 28,
-  },
+  }
 ];
 
 async function seed() {
