@@ -1,36 +1,106 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+🕌 Masjid Finder
+بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
+A complete Islamic digital platform for the Muslims of Karachi
 
-## Getting Started
 
-First, run the development server:
+🌟 About the Project
+Masjid Finder is a modern Islamic web application designed specifically for the Muslims of Karachi. The core purpose of this platform is to help any Muslim — whether a regular worshipper or a traveller — find the nearest mosque using their GPS location with ease.
+This is not just a mosque finder — it is an all-in-one Islamic hub where:
 
-```bash
+📍 Nearby mosques can be found using GPS
+🤲 Daily duas are available in one place
+📖 Surah Al-Kahf can be recited easily every Friday
+🛒 Islamic products can be purchased online
+
+
+"Putting technology in the service of Deen — that is the vision of this project."
+
+⚙️ How It Works
+Finding a Mosque
+
+Open the website: masjid-finder-six.vercel.app
+Click the "Detect" button on the home page
+A browser location popup will appear — click "Allow"
+Your GPS coordinates will be detected automatically
+Nearby mosques will be listed along with their distances
+
+Reading a Dua
+
+Click "Dua" in the top navigation
+The list of duas will load
+Type the dua you need in the search bar
+Read your desired supplication
+
+Reciting Surah Al-Kahf
+
+Click "Surah" in the top navigation
+The full Surah Al-Kahf will load
+Recite verse by verse
+
+Shopping from the Store
+
+Click "Store" in the top navigation
+Select a product category (Prayer Mats, Quran, etc.)
+Add products to your cart
+Review your cart and proceed to checkout
+
+
+🛠️ Tech Stack
+Frontend Framework  →  Next.js
+UI Library          →  React.js
+Language            →  JavaScript
+Styling             →  CSS / Tailwind CSS
+Hosting             →  Vercel
+Location API        →  Browser Geolocation API (GPS)
+
+🚀 Installation
+To run the project locally:
+bash# Clone the repository
+git clone https://github.com/your-username/masjid-finder.git
+
+# Navigate into the project folder
+cd masjid-finder
+
+# Install dependencies
+npm install
+
+# Start the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open your browser at: http://localhost:3000
+Build for Production
+bashnpm run build
+npm start
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+💡 Advantages
+For Muslims
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+⏱️ Saves time — Find the nearest mosque quickly before Jumu'ah
+📱 One platform — Mosque finder, Duas, Quran, and Store all in one place
+🙏 Daily worship made easy — Your duas are always at hand
+📖 Friday Sunnah — Recite Surah Al-Kahf without needing a separate app
+🛒 Halal shopping — Trusted source for Islamic products
+🌍 For newcomers — Helps people new to Karachi find mosques with ease
 
-## Learn More
+Technical Advantages
 
-To learn more about Next.js, take a look at the following resources:
+⚡ Fast page loading and SEO-friendly structure powered by Next.js
+🌐 99.9% uptime with Vercel hosting and global CDN
+📍 Accurate real-time location detection via GPS integration
+📱 Responsive design — perfect experience on any device
+🔗 No download required — open directly in the browser
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Community Advantages
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+🆓 Completely free service for the Muslim community
+🕌 Useful for Muslims across all areas of Karachi
+💻 Digital Islam — technology in the service of Deen
+👴 Simple interface — easy to use for all age groups
 
-## Deploy on Vercel
+📞 Links
+🌐 Live Websitemasjid-finder-six.vercel.app🏠 Home/🤲 Dua/Dua📖 Surah/Surah🛒 Store/Store
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+<div align="center">
+جَزَاكَ اللَّهُ خَيْرًا
+© 2025 Masjid Finder — Free for all Muslims
+</div>
