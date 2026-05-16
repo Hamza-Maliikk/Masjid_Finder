@@ -132,7 +132,7 @@ export default function StorePage() {
         overflowX: 'hidden',
       }}
     >
-      {/* Background orbs — same as home page */}
+      {/* Background orbs */}
       <div style={{ position: 'fixed', top: '-100px', left: '-150px', width: 500, height: 500, borderRadius: '50%', filter: 'blur(80px)', background: 'radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
       <div style={{ position: 'fixed', top: '30%', right: '-100px', width: 400, height: 400, borderRadius: '50%', filter: 'blur(80px)', background: 'radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
       <div style={{ position: 'fixed', bottom: '10%', left: '20%', width: 350, height: 350, borderRadius: '50%', filter: 'blur(80px)', background: 'radial-gradient(circle, rgba(14,158,138,0.1) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
@@ -292,44 +292,107 @@ export default function StorePage() {
       {/* ── MAIN CONTENT ── */}
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 1.25rem 4rem', position: 'relative', zIndex: 1 }}>
 
-        {/* ── Header ── */}
-        <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '2.2rem 0 1.8rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(14,158,138,0.15)', border: '1px solid rgba(14,158,138,0.3)', color: '#0e9e8a', fontSize: 11, letterSpacing: 2, textTransform: 'uppercase', padding: '5px 14px', borderRadius: 20 }}>
+        {/* ── Header ── FIXED: flex column on mobile, row on desktop */}
+        <header style={{
+          padding: '2.2rem 0 1.8rem',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1rem',
+        }}>
+          {/* Row 1: Badge + Cart button on same line */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}>
+            {/* Badge */}
+            <span style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              background: 'rgba(14,158,138,0.15)',
+              border: '1px solid rgba(14,158,138,0.3)',
+              color: '#0e9e8a',
+              fontSize: 11,
+              letterSpacing: 2,
+              textTransform: 'uppercase',
+              padding: '5px 14px',
+              borderRadius: 20,
+              flexShrink: 0,
+            }}>
               <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#0e9e8a', display: 'inline-block' }} />
               Islamic Store
             </span>
+
+            {/* Cart Button */}
+            <button
+              onClick={() => setCartOpen(true)}
+              aria-label="Open cart"
+              style={{
+                position: 'relative',
+                background: cartCount > 0 ? 'rgba(14,158,138,0.2)' : 'rgba(255,255,255,0.04)',
+                border: `1px solid ${cartCount > 0 ? 'rgba(14,158,138,0.4)' : 'rgba(255,255,255,0.08)'}`,
+                borderRadius: 12,
+                padding: '10px 14px',
+                cursor: 'pointer',
+                color: cartCount > 0 ? '#0e9e8a' : 'rgba(255,255,255,0.45)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 8,
+                fontSize: 14,
+                fontWeight: 600,
+                transition: 'all 0.2s',
+                fontFamily: 'inherit',
+                flexShrink: 0,
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(14,158,138,0.2)';
+                e.currentTarget.style.borderColor = 'rgba(14,158,138,0.4)';
+                e.currentTarget.style.color = '#0e9e8a';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = cartCount > 0 ? 'rgba(14,158,138,0.2)' : 'rgba(255,255,255,0.04)';
+                e.currentTarget.style.borderColor = cartCount > 0 ? 'rgba(14,158,138,0.4)' : 'rgba(255,255,255,0.08)';
+                e.currentTarget.style.color = cartCount > 0 ? '#0e9e8a' : 'rgba(255,255,255,0.45)';
+                e.currentTarget.style.transform = 'none';
+              }}
+            >
+              <ShoppingBag size={20} />
+              {cartCount > 0 && (
+                <span style={{
+                  position: 'absolute',
+                  top: -7, right: -7,
+                  background: '#c9a84c',
+                  color: '#060d1a',
+                  borderRadius: '50%',
+                  width: 21, height: 21,
+                  fontSize: 11, fontWeight: 800,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  boxShadow: '0 2px 8px rgba(201,168,76,0.4)',
+                  animation: 'popIn 0.25s ease',
+                }}>
+                  {cartCount}
+                </span>
+              )}
+              Cart{cartCount > 0 ? ` (${cartCount})` : ''}
+            </button>
           </div>
 
-          <h1 style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', fontSize: 'clamp(1.4rem,3.5vw,2rem)', fontWeight: 700, color: 'rgba(255,255,255,0.92)', margin: 0, display: 'flex', alignItems: 'center', gap: 10 }}>
+          {/* Row 2: Title centered on its own line */}
+          <h1 style={{
+            fontSize: 'clamp(1.4rem, 5vw, 2rem)',
+            fontWeight: 700,
+            color: 'rgba(255,255,255,0.92)',
+            margin: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 10,
+          }}>
             <ShoppingBag size={26} color="#0e9e8a" />
             Islamic Store
           </h1>
-
-          {/* Cart Button */}
-          <button
-            onClick={() => setCartOpen(true)}
-            aria-label="Open cart"
-            style={{
-              position: 'relative',
-              background: cartCount > 0 ? 'rgba(14,158,138,0.2)' : 'rgba(255,255,255,0.04)',
-              border: `1px solid ${cartCount > 0 ? 'rgba(14,158,138,0.4)' : 'rgba(255,255,255,0.08)'}`,
-              borderRadius: 12, padding: '10px 14px', cursor: 'pointer',
-              color: cartCount > 0 ? '#0e9e8a' : 'rgba(255,255,255,0.45)',
-              display: 'flex', alignItems: 'center', gap: 8,
-              fontSize: 14, fontWeight: 600, transition: 'all 0.2s', fontFamily: 'inherit',
-            }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(14,158,138,0.2)'; e.currentTarget.style.borderColor = 'rgba(14,158,138,0.4)'; e.currentTarget.style.color = '#0e9e8a'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = cartCount > 0 ? 'rgba(14,158,138,0.2)' : 'rgba(255,255,255,0.04)'; e.currentTarget.style.borderColor = cartCount > 0 ? 'rgba(14,158,138,0.4)' : 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = cartCount > 0 ? '#0e9e8a' : 'rgba(255,255,255,0.45)'; e.currentTarget.style.transform = 'none'; }}
-          >
-            <ShoppingBag size={20} />
-            {cartCount > 0 && (
-              <span style={{ position: 'absolute', top: -7, right: -7, background: '#c9a84c', color: '#060d1a', borderRadius: '50%', width: 21, height: 21, fontSize: 11, fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px rgba(201,168,76,0.4)', animation: 'popIn 0.25s ease' }}>
-                {cartCount}
-              </span>
-            )}
-            Cart{cartCount > 0 ? ` (${cartCount})` : ''}
-          </button>
         </header>
 
         {/* ── Search ── */}
