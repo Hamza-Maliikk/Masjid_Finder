@@ -79,7 +79,7 @@ export default function MasjidFinderPage() {
       .sort((a, b) => (sortAsc ? a.dist - b.dist : b.dist - a.dist));
 
     setResults(withDistance as IMasjidWithDist[]);
-  }, [userCoords, masjids, sortAsc]);
+  }, [userCoords,  sortAsc]);
 
   const detectLocation = useCallback(() => {
     if (locDetected || locLoading) return;
