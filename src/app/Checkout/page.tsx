@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { ShoppingBag, User, Mail, MapPin, Phone, CreditCard, Lock, CheckCircle, ChevronRight } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 interface FormState {
   name: string;
@@ -14,6 +15,7 @@ interface FormState {
   cardExpiry: string;
   cardCvv: string;
 }
+
 
 export default function CheckoutPage() {
   const [form, setForm] = useState<FormState>({
@@ -37,6 +39,13 @@ export default function CheckoutPage() {
   });
   setLoading(false);
   setSubmitted(true);
+  };
+  const router = useRouter();
+
+  const backStore = () => {
+    setSubmitted(false);
+    setForm({ name: '', email: '', phone: '', address: '', city: '', zip: '', paymentMethod: 'cod', cardNumber: '', cardExpiry: '', cardCvv: '' });
+    router.push('/Store');
   };
 
   const inputStyle = (name: string): React.CSSProperties => ({
@@ -94,7 +103,7 @@ export default function CheckoutPage() {
             Your order has been received. We will contact you at <strong style={{ color: 'rgba(255,255,255,0.6)' }}>{form.email}</strong> shortly.
           </p>
           <button
-            onClick={() => { setSubmitted(false); setForm({ name: '', email: '', phone: '', address: '', city: '', zip: '', paymentMethod: 'cod', cardNumber: '', cardExpiry: '', cardCvv: '' }); }}
+            onClick={backStore}
             style={{ background: 'linear-gradient(135deg, #0e9e8a, #07b89f)', border: 'none', color: '#fff', borderRadius: 12, padding: '12px 28px', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', boxShadow: '0 4px 16px rgba(14,158,138,0.3)' }}
           >
             Back to Store

@@ -36,7 +36,6 @@ export async function POST(req: NextRequest) {
         console.error("❌ Error saving order:", err);
         return NextResponse.json({ success: false, message: "Failed to save order" }, { status: 500 });
     }
-    const body = await req.json(); // form data milega yahan
 
 
 
