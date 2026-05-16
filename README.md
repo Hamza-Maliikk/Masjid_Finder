@@ -110,10 +110,10 @@ git clone https://github.com/Hamza-Maliikk/Masjid_Finder.git
 cd Masjid_Finder
 
 # Install dependencies
-npm install
+pnpm install
 
 # Start the development server
-npm run dev
+pnpm  dev
 ```
 
 Open your browser at: `http://localhost:3000`
@@ -121,55 +121,11 @@ Open your browser at: `http://localhost:3000`
 ### Build for Production
 
 ```bash
-npm run build
-npm start
+pnpm build
 ```
 
----
 
-## 💡 Advantages
 
-### For Muslims
-- ⏱️ **Saves time** — Find the nearest mosque quickly before Jumu'ah
-- 📱 **One platform** — Mosque finder, Duas, Quran, and Store all in one place
-- 🙏 **Daily worship made easy** — Your duas are always at hand
-- 📖 **Friday Sunnah** — Recite Surah Al-Kahf without needing a separate app
-- 🛒 **Halal shopping** — Trusted source for Islamic products
-- 🌍 **For newcomers** — Helps people new to Karachi find mosques with ease
 
-### Technical Advantages
-- ⚡ Fast page loading and SEO-friendly structure powered by Next.js
-- 🌐 99.9% uptime with Vercel hosting and global CDN
-- 📍 Accurate real-time location detection via GPS integration
-- 📱 Responsive design — perfect experience on any device
-- 🔗 No download required — open directly in the browser
-
-### Community Advantages
-- 🆓 Completely **free** service for the Muslim community
-- 🕌 Useful for Muslims across all areas of Karachi
-- 💻 Digital Islam — technology in the service of Deen
-- 👴 Simple interface — easy to use for all age groups
-
----
-
-## 📞 Links
-
-| | |
-|---|---|
-| 🌐 **Live Website** | [masjid-finder-six.vercel.app](https://masjid-finder-six.vercel.app/) |
-| 🏠 **Home** | [/](https://masjid-finder-six.vercel.app/) |
-| 🤲 **Dua** | [/Dua](https://masjid-finder-six.vercel.app/Dua) |
-| 📖 **Surah** | [/Surah](https://masjid-finder-six.vercel.app/Surah) |
-| 🛒 **Store** | [/Store](https://masjid-finder-six.vercel.app/Store) |
-
----
-
-<div align="center">
-
-**جَزَاكَ اللَّهُ خَيْرًا**
-
-*May Allah bless your work* 🤲
-
-*© 2025 Masjid Finder — Free for all Muslims*
 
 </div>
